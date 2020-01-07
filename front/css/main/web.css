@@ -1,0 +1,230 @@
+html {
+    font-size:25px;
+}
+
+#img_main {
+    position:absolute;
+    top:-30px; left:20vw;
+    width: 83.334vw;
+    object-fit: contain;
+}
+
+#main {
+    height:56.25vw;
+    padding:74.4px 72px;
+    padding-bottom:0px;
+    background-image: url( "../../img/bg_1.png" );
+    background-repeat: no-repeat;
+    background-size:100%;
+    font-size:23px;
+    line-height: 1.39;
+    letter-spacing: 0.41px;
+    color: #ffffff;
+    text-align:right;
+}
+#nav {
+    height:19.838vw;
+    text-align:left;
+}
+#nav_left {
+    display:flex;
+    flex-direction:column;
+    float:left;
+}
+.nav_left {
+    margin-bottom:2.562vw;
+    font-family: AppleSDGothicNeoSB;
+    font-size: 1.086956em;
+    line-height: 1.44;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color:#707070;
+}
+#nav_right {
+    display:inline-flex;
+    flex-flow:row nowrap;
+    float:right;
+}
+.nav_right {
+    margin-left:43.6px;
+    font-family: AppleSDGothicNeoSB;
+}
+#text-area {
+    margin:15vw 0;
+    text-align:right;
+}
+.title {
+    margin-right:0;
+    margin-left:auto;
+    text-align:right;
+    max-width:800px;
+}
+#title_logo {
+    width:34.74vw;
+}
+#title_sub {
+    display:inline;
+    font-family: AppleSDGothicNeoUL;
+    margin-right:8px;
+}
+#bottom {
+    margin-top:20vw;
+    text-align:left;
+}
+#logo_school {
+    width:14.739vw;
+    min-width:200px;
+}
+
+.content_img {
+    width:35.677vw;
+    height:23.776vw;
+    margin:auto 0;
+}
+#img_smartfarm {
+    width:100%;
+    height:100%;
+}
+#img_assertive {
+    width:100%;
+    height:100%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 0 22px 0 rgba(0, 0, 0, 0.73);
+    background-position:center;
+}
+
+.content_title {
+    text-shadow: 4px 3px 6px rgba(0, 0, 0, 0.65);
+    font-family: AppleSDGothicNeoH;
+    font-size: 5.75rem;
+    line-height: 1.5;
+    letter-spacing: 11.22px;
+    text-align: center;
+}
+.dec_box {
+    margin:auto;
+    margin-top:50px;
+    width: 120px;
+    height: 15px;
+    background-image: linear-gradient(to left, #16cede, #16e7ba);
+}
+.article {
+    display:flex;
+    margin:auto;
+    margin-top:110px;
+    justify-content:space-between;
+}
+.description {
+    box-sizing:border-box;
+    margin:auto 0px;
+    font-family: AppleSDGothicNeoSB;
+    font-size:1rem;
+    line-height: 2.04;
+    letter-spacing: 2.5px;
+}
+
+#smartfarm {
+    margin-bottom:8vw;
+    padding:267.4px 9.766vw;
+    padding-bottom:329px;
+    height:747.1px;
+    background-image: url( "../../img/bg_2.png" );
+    background-repeat: no-repeat;
+    background-size:100% 100%;
+}
+#assertive {
+    padding:0px 9.766vw;
+    margin-bottom:700px;
+}
+#enjoy {
+    margin-bottom:315px;
+    padding:0px 187.5px;
+    font-family: AppleSDGothicNeoH;
+    font-size: 4.72em;
+    line-height: 1.48;
+    letter-spacing: normal;
+    text-align: left;
+    color: #16cede;
+}
+#smartfarm .description {
+    margin-right:21.6px;
+    text-align: right;
+    color: #ffffff;
+}
+#assertive .description {
+    text-align: left;
+    color:#303d53;
+}
+
+#btn_shop {
+    margin-left:10px;
+    font-family: AppleSDGothicNeoL;
+    font-size:1.28rem;
+    line-height: 1.28;
+    letter-spacing: 2.59px;
+    color: #707070;
+}
+
+#footer {
+    display:block;
+    padding:74px 105px;
+    background-color: #232b39;
+    font-family: AppleSDGothicNeoUL;
+    font-size:0.84em;
+    text-align: left;
+    color: #ffffff;
+}
+#footer #name {
+    font-family: AppleSDGothicNeoEB;
+    font-size:1em;
+    line-height: 2.04;
+    letter-spacing: 2.5px;
+}
+
+@media (max-width:1750px) {
+    #a1 {
+        display:none;
+    }
+}
+@media (max-width:1280px) {
+    html {
+        font-size:18px;
+    }
+    #main {
+        font-size:20px;
+    }
+    /* .article {
+        flex-direction:column;
+        justify-content:center;
+    } */
+    /* .content_img {
+        max-width:80vw;
+        align-self:center;
+    }
+    .description {
+        align-self:center;
+        text-align:center;
+    } */
+}
+/* @media (max-width:1300px) {
+    #title_sub {
+        margin-left:60vw;
+        min-width:300px;
+        font-size:
+    }
+}
+@media (max-width:1200px) {
+    #main {
+        font-size:20px;
+    }
+}
+
+@media (max-width:1000px) {
+    #main {
+        font-size:16px;
+    }
+    #title_sub {
+        min-width:205px;
+    }
+} */

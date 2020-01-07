@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>주문</title>
+
+    <link rel="stylesheet" href="../css/order/skeleton.css">
+    <link rel="stylesheet" href="../css/order/fontawesome-free-5.12.0-web/css/fontawesome.min.css">
+    <link rel="stylesheet" media="all and (min-width:1025px)" href="../css/order/web_style.css">
+    <link rel="stylesheet" media="screen and (min-width:768px) and (max-width:1024px)" href="../css/order/tablet_style.css">
+    <link rel="stylesheet" media="screen and (max-width: 767px)" href="../css/order/modile_style.css">
+    <link rel="stylesheet" href="../css/all.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/2bc85ee5f8.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="nav">
+        <img src="../img/logo.png" alt="" class="logo">
+        <div class="navbar">
+            <span class="blank"></span>
+            <ul>
+                <li><a href="/community" class="community">COMMUNITY</a></li>
+                <li><a href="#" class="gallery">GALLERY</a></li>
+                <li><a href="/order" class="order">주문</a></li>
+                <li><a href="#" class="cart">장바구니</a></li>
+                <li><a href="/login" class="login">로그인</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="container">
+            <div class="four columns">
+                <div id="wrapper">
+                    <div id="slider-wrap">
+                        <ul id="slider">
+                            <li>
+                                <img src="../img/assertive.jpg">
+                            </li>
+                            <li>
+                                <img src="../img/assertive2.png">
+                            </li>
+                            <li>
+                                <img src="../img/assertive.jpg">
+                            </li>
+                        </ul>
+
+                        <div class="btns" id="next"><i class="fas fa-arrow-right"></i></div>
+                        <div class="btns" id="previous"><i class="fas fa-arrow-left"></i></div>
+
+                        <div id="pagination-wrap">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="eight columns">
+                <div id="product">
+                    <div class="card">
+                        <img class="product_image" src="../img/image1.jpg" alt="">
+                        <p class="delivery_charge">배송비 | 2,500</p>
+                        <p class="product_name">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g</p>
+                        <p class="price">8,760원</p>
+                        <button class="order_button">
+                            <p class="order_text">주문하기</p>
+                        </button>
+                        <div id="confirm">
+                            <div class="close"><i class="fa fa-times"></i></div>
+                            <div class="message"><img src="../img/shopping-cart-button.png" alt=""> 장바구니에 추가되었습니다</div>
+                            <br>
+                            <button class="yes">장바구니 확인하기</button>
+                        </div>
+                        <button class="shopping_basket">
+                            <p class="shopping_basket_text" onclick="functionAlert();">장바구니</p>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <img class="product_image" src="../img/image1.jpg" alt="">
+                        <p class="delivery_charge">배송비 | 2,500</p>
+                        <p class="product_name">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g</p>
+                        <p class="price">8,760원</p>
+                        <button class="order_button">
+                            <p class="order_text">주문하기</p>
+                        </button>
+                        <div id="confirm">
+                            <div class="close"><i class="fa fa-times"></i></div>
+                            <div class="message"><img src="../img/shopping-cart-button.png" alt=""> 장바구니에 추가되었습니다</div>
+                            <br>
+                            <button class="yes">장바구니 확인하기</button>
+                        </div>
+                        <button class="shopping_basket">
+                            <p class="shopping_basket_text" onclick="functionAlert();">장바구니</p>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <img class="product_image" src="../img/image1.jpg" alt="">
+                        <p class="delivery_charge">배송비 | 2,500</p>
+                        <p class="product_name">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g</p>
+                        <p class="price">8,760원</p>
+                        <button class="order_button">
+                            <p class="order_text">주문하기</p>
+                        </button>
+                        <div id="confirm">
+                            <div class="close"><i class="fa fa-times"></i></div>
+                            <div class="message"><img src="../img/shopping-cart-button.png" alt=""> 장바구니에 추가되었습니다</div>
+                            <br>
+                            <button class="yes">장바구니 확인하기</button>
+                        </div>
+                        <button class="shopping_basket">
+                            <p class="shopping_basket_text" onclick="functionAlert();">장바구니</p>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <img class="product_image" src="../img/image1.jpg" alt="">
+                        <p class="delivery_charge">배송비 | 2,500</p>
+                        <p class="product_name">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g</p>
+                        <p class="price">8,760원</p>
+                        <button class="order_button">
+                            <p class="order_text">주문하기</p>
+                        </button>
+                        <div id="confirm">
+                            <div class="close"><i class="fa fa-times"></i></div>
+                            <div class="message"><img src="../img/shopping-cart-button.png" alt=""> 장바구니에 추가되었습니다</div>
+                            <br>
+                            <button class="yes">장바구니 확인하기</button>
+                        </div>
+                        <button class="shopping_basket">
+                            <p class="shopping_basket_text" onclick="functionAlert();">장바구니</p>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <img class="product_image" src="../img/image1.jpg" alt="">
+                        <p class="delivery_charge">배송비 | 2,500</p>
+                        <p class="product_name">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g</p>
+                        <p class="price">8,760원</p>
+                        <button class="order_button">
+                            <p class="order_text">주문하기</p>
+                        </button>
+                        <div id="confirm">
+                            <div class="close"><i class="fa fa-times"></i></div>
+                            <div class="message"><img src="../img/shopping-cart-button.png" alt=""> 장바구니에 추가되었습니다</div>
+                            <br>
+                            <button class="yes">장바구니 확인하기</button>
+                        </div>
+                        <button class="shopping_basket">
+                            <p class="shopping_basket_text" onclick="functionAlert();">장바구니</p>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <img class="product_image" src="../img/image1.jpg" alt="">
+                        <p class="delivery_charge">배송비 | 2,500</p>
+                        <p class="product_name">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g</p>
+                        <p class="price">8,760원</p>
+                        <button class="order_button">
+                            <p class="order_text">주문하기</p>
+                        </button>
+                        <div id="confirm">
+                            <div class="close"><i class="fa fa-times"></i></div>
+                            <div class="message"><img src="../img/shopping-cart-button.png" alt=""> 장바구니에 추가되었습니다</div>
+                            <br>
+                            <button class="yes">장바구니 확인하기</button>
+                        </div>
+                        <button class="shopping_basket">
+                            <p class="shopping_basket_text" onclick="functionAlert();">장바구니</p>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <img class="product_image" src="../img/image1.jpg" alt="">
+                        <p class="delivery_charge">배송비 | 2,500</p>
+                        <p class="product_name">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g</p>
+                        <p class="price">8,760원</p>
+                        <button class="order_button">
+                            <p class="order_text">주문하기</p>
+                        </button>
+                        <div id="confirm">
+                            <div class="close"><i class="fa fa-times"></i></div>
+                            <div class="message"><img src="../img/shopping-cart-button.png" alt=""> 장바구니에 추가되었습니다</div>
+                            <br>
+                            <button class="yes">장바구니 확인하기</button>
+                        </div>
+                        <button class="shopping_basket">
+                            <p class="shopping_basket_text" onclick="functionAlert();">장바구니</p>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <img class="product_image" src="../img/image1.jpg" alt="">
+                        <p class="delivery_charge">배송비 | 2,500</p>
+                        <p class="product_name">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g</p>
+                        <p class="price">8,760원</p>
+                        <button class="order_button">
+                            <p class="order_text">주문하기</p>
+                        </button>
+                        <div id="confirm">
+                            <div class="close"><i class="fa fa-times"></i></div>
+                            <div class="message"><img src="../img/shopping-cart-button.png" alt=""> 장바구니에 추가되었습니다</div>
+                            <br>
+                            <button class="yes">장바구니 확인하기</button>
+                        </div>
+                        <button class="shopping_basket">
+                            <p class="shopping_basket_text" onclick="functionAlert();">장바구니</p>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div><span class="footer_1">
+                한국디지털미디어고등학교 ASSERTIVE
+            </span>
+        </div>
+        <div style="margin-top:22px; line-height:1.38;">
+            <span>
+                경기도 안산시 단원구 사세충열로 94 한국디지털미디어고등학교
+            </span>
+        </div>
+        <div style="margin-top:5px; line-height: 2.43; letter-spacing: 2.1px;">
+            <span>
+                한국디지털미디어고등학교 ASSERTIVE홈페이지 / 개발 : ASSERTIVE 판매시스템부 / 디자인 : 김수겸 / 지도교사 : 함지연
+            </span>
+        </div>
+        <hr style="margin:20px 0px; color:#232b39">
+        <div style="margin-top:33.5px; line-height: 1.38;">
+            <span>
+                Copyright © 2019 Korea Digital Media High School ASSERTIVE. All Rights Reserved.
+            </span>
+        </div>
+    </div>
+    <script src="../js/order/index.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+{
+  "name": "assertive",
+  "version": "1.2.0",
+  "description": "Smartfarm Sales System",
+  "main": "app.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "date-utils": "^1.2.21",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.0",
+    "ipware": "^2.0.0",
+    "mongoose": "^5.6.4",
+    "mysql": "^2.17.1",
+    "path": "^0.12.7",
+    "socket.io": "^2.2.0",
+    "systeminformation": "^4.14.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "pm2 start app.js --watch --ignore-watch \"node_modules *.html\" --no-daemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KDMHSAssertive/assertive.git"
+  },
+  "author": "2019 assertive",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KDMHSAssertive/assertive/issues"
+  },
+  "homepage": "https://github.com/KDMHSAssertive/assertive#readme"
+}

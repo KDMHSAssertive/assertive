@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>회원가입 - Assertive</title>
+    <link rel="stylesheet" href="./css/register/register.css">
+    <link rel="stylesheet" href="./css/all.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="./js/register/register.js"></script>
+</head>
+<body>
+    <div class="contents-wrap">
+        <div class="header">
+            <div class="icon_left">
+                <ul class="icons">
+                    <li><img class="icon icon_c" src="./img/home-icon-silhouette.png"/></li>
+                    <li><img class="icon icon_a" src="./img/93-2-x.png"/></li>
+                    <li><img class="icon icon_b" src="./img/94-2-x.png"/></li>
+                </ul>   
+            </div>
+            <div class="logo_cover">
+                <img class="logo" src="/img/logo_white.png"/>
+            </div>
+        </div>
+        <div class="cover_form">
+            <form class="form_register" method="POST">
+                <div class="info_necess">
+                    <div class="name cover_input">
+                        <p class="name_text name_cont text">이름</p>
+                        <input id="name" type="text" class="name_input name_cont input" placeholder="본명을 입력해주세요"/>
+                        <div class="line_bottom" id="name_bottom"></div>
+                    </div>
+                    <div class="id cover_input">
+                        <p class="id_text id_cont text">아이디</p>
+                        <input type="text" class="id_input id_cont input" id="id" placeholder="아이디을 입력해주세요"/>
+                        <div class="line_bottom" id="id_bottom"></div>
+                    </div>
+                    <div class="pw cover_input">
+                        <p class="pw_text pw_cont text">비밀번호</p>
+                        <input type="password" class="pw_input pw_cont input" id="pw" placeholder="비밀번호를 입력해주세요"/>
+                        <div class="line_bottom_before" id="pw_bottom"></div>
+                        <div class="line_bottom_after" id="id_bottom"></div>
+                    </div>
+                    <div class="pw_check cover_input">
+                        <p style="width: 200px !important;" class="pw_check_text pw_check_cont text">비밀번호 확인</p>
+                        <input type="password" id="pw_re" class="pw_check_input pw_cont input" id="pw_re" style="width: 300px !important; left: 200px !important;" placeholder="위와 동일하게 입력해주세요"/>
+                        <p class="err_message">암호 미일치</p>
+                        <div class="line_bottom_before" id="pw_re_bottom"></div>
+                        <div class="line_bottom_after" id="id_bottom"></div>
+                    </div>
+                    <div class="pn cover_input">
+                        <p class="pn_text pn_cont text">전화번호</p>
+                        <input id="pn" type="number" class="pn_input pn_cont input" placeholder="전화번호를 입력해주세요"/>
+                        <div class="line_bottom" id="pn_bottom"></div>
+                    </div>
+                </div>
+                <div class="info_select">
+                    <div class="birth cover_input">
+                        <p class="name_text name_cont text">생년월일</p>
+                        <input type="text" class="name_input name_cont input" placeholder="생일을 입력해주세요"/>
+                        <div class="line_bottom" id="birth_bottom" id="name_bottom"></div>
+                    </div>
+                    <div class="email cover_input">
+                        <p class="name_text name_cont text">이메일</p>
+                        <input type="text" class="name_input name_cont input" placeholder="이메일을 입력해주세요"/>
+                        <div class="line_bottom" id="email_bottom"></div>
+                    </div>
+                    <div class="address cover_input">
+                        <p class="name_text name_cont text">주소</p>
+                        <input type="text" class="name_input name_cont input" placeholder="기본주소 | "/>
+                        <div class="line_bottom" id="address_bottom"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
