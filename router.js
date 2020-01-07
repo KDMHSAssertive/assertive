@@ -45,7 +45,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         if(req.session.user) {
             res.render("index.html", {
                 status: true,
-                data: req.session.user
+                uinfo: req.session.user
             });
         } else {
             res.render("index.html", {
@@ -58,7 +58,13 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
     //login page
     app.get('/login', function(req, res) {
         console.log("Page approached: login");
-        res.render("login.html");
+        if(req.session.user) {
+            res.statusCode = 302;
+            res.setHeader('Location', '/');
+            res.end();
+        } else {
+            res.render("login.html");
+        }
     })
 
 
@@ -83,8 +89,64 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
     //order page
     app.get('/order', function(req, res) {
         console.log("Page approached: order");
-        res.render("order.html");
+        let prod_data;
+
+        if (req.session != undefined && req.session.user != undefined) {
+            prod_data = [{
+                name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
+                price: 8760,
+                prodid: "c3018582834",
+                deliverCharge: 2500
+            },
+            {
+                name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g * 2",
+                price: 10000,
+                prodid: "c3018582834",
+                deliverCharge: 2500
+            },
+            {
+                name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g * 3",
+                price: 25000,
+                prodid: "c3018582834",
+                deliverCharge: 2500
+            }]
+            res.render("order.html", {
+                prod: prod_data,
+                uinfo: req.session.user,
+                status: true
+            });   
+        } else {
+            res.statusCode = 302;
+            res.setHeader('Location', '/login');
+            res.end();
+        }
     });
+
+
+
+
+    app.get('/cart', function(req, res) {
+        console.log("Page approached:c cart");
+        if (req.session != undefined && req.session.user != undefined) {
+            res.render("cart.html", {
+                status: true,
+                uinfo: req.session.user
+            });   
+        } else {
+            res.statusCode = 302;
+            res.setHeader('Location', '/login');
+            res.end();
+        }
+    })
+
+
+
+
+
+
+
+
+
 
     //post edit page
 
@@ -384,41 +446,18 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
     });
     
     app.post('/add_cart', function(req, res) {
-        var cart_insert = req.body.cart_insert;
-        var cart_insert_splited_cont = new Array();
-        var cart = [];
-        console.log(cart_insert);
-        if(req.session.cart) {
-            cart = req.session.cart;
+        var cart_insert = req.body.cart_insert; // String
+        var cart = req.session.cart;
+        if (cart == undefined) {
+            cart = [];
         }
-        if (cart_insert.length > 1 && cart_insert.length != 0) {
-            var cart_insert_splited = cart_insert.split(',');
-
-            for (var i = 0; i < cart_insert_splited.length; i++) {
-                cart_insert_splited_cont[i] = cart_insert_splited[i];
-                var duplicate_check = cart.find((element) => {
-                    return element == cart_insert_splited_cont[i]
-                })
-    
-                console.log(cart_insert_splited_cont[i]);
-                console.log(duplicate_check);
-    
-                if (duplicate_check != undefined) {
-                    console.log("duplicate product!");
-                    
-                } else {
-                    cart.push(cart_insert_splited_cont[i]);
-                }
-            }
-        } else {
-            cart.push(cart_insert);
-        }
+        cart.push(cart_insert);
 
         req.session.cart = cart;
 
         console.log(req.session.cart)
 
-        res.end();
+        res.end("true");
     })
 
     app.post('/reset_cart', function(req, res) {

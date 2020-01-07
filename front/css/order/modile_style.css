@@ -265,6 +265,8 @@ a {
     letter-spacing: 1.58px;
     text-align: left;
     color: #000000;
+    height: 28px;
+    overflow-y: auto;
 }
 
 .price {

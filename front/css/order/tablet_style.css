@@ -282,7 +282,9 @@ a {
     line-height: 1.33;
     letter-spacing: 1.58px;
     text-align: left;
+    height: 40px;
     color: #000000;
+    overflow-y: auto;
 }
 
 .price {

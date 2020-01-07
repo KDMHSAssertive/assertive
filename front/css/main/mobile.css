@@ -161,16 +161,16 @@ html {
 
 #footer {
     display:block;
-    padding:40px 40px;
+    padding:40px 40px !important;
     background-color: #232b39;
     font-family: AppleSDGothicNeoUL;
-    font-size:0.84em;
+    font-size:0.84em !important;
     text-align: left;
     color: #ffffff;
 }
 #footer #name {
     font-family: AppleSDGothicNeoEB;
-    font-size:1em;
+    font-size:1em !important;
     line-height: 2.04;
     letter-spacing: 2.5px;
 }

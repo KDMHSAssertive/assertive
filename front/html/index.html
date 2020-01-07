@@ -1,29 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+    <% include ./head %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ASSERTIVE 스마트팜</title>
-    <link rel="stylesheet" type='text/css' href="./css/main/default.css">
-    <link rel="stylesheet" type='text/css' href="./css/all.css">
-    <link rel="stylesheet" type='text/css' media="all and (min-width:1025px)" href="./css/main/web.css">
-    <link rel="stylesheet" type='text/css' media="screen and (min-width:768px) and (max-width:1024px)" href="./css/main/tablet.css">
-    <link rel="stylesheet" type='text/css' media="screen and (max-width:767px)" href="./css/main/mobile.css">
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#logout").click(() => {
-                console.log("logout request");
-                axios.post('/logout')
-                .then(({data}) => {
-                    location.reload();
-                })
-            }) 
-        })
-        
-    </script>
+    <link rel="stylesheet" type='text/css' href="../css/main/default.css">
+    <link rel="stylesheet" type='text/css' media="all and (min-width:1025px)" href="../css/main/web.css">
+    <link rel="stylesheet" type='text/css' media="screen and (min-width:768px) and (max-width:1024px)" href="../css/main/tablet.css">
+    <link rel="stylesheet" type='text/css' media="screen and (max-width:767px)" href="../css/main/mobile.css">
 </head>
 <body>
     <div id='app'>
@@ -148,29 +133,7 @@
             </div>
         </div>
 
-        <div id='footer'>
-            <div id='name'>
-                <span>
-                    한국디지털미디어고등학교 ASSERTIVE
-                </span>
-            </div>
-            <div style='margin-top:22px; line-height:1.38;'>
-                <span>
-                    경기도 안산시 단원구 사세충열로 94 한국디지털미디어고등학교 
-                </span>
-            </div>
-            <div style='margin-top:5px; line-height: 2.43; letter-spacing: 2.1px;'>
-                <span>
-                    한국디지털미디어고등학교 ASSERTIVE홈페이지 / 개발 : ASSERTIVE 판매시스템부 / 디자인 : 김수겸 / 지도교사 : 함지연
-                </span>
-            </div>
-            <hr style='margin:20px 0px; color:#232b39'>
-            <div style='margin-top:33.5px; line-height: 1.38;'>
-                <span>
-                    Copyright © 2019 Korea Digital Media High School ASSERTIVE. All Rights Reserved.
-                </span>
-            </div>
-        </div>
+        <% include ./footer_formal %>
     </div>
 </body>
 </html>

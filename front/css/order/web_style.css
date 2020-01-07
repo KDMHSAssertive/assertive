@@ -281,6 +281,8 @@ a {
     line-height: 1.33;
     letter-spacing: 1.58px;
     text-align: left;
+    height: 28px;
+    overflow-y: auto;
     color: #000000;
 }
 

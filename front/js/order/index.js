@@ -50,12 +50,47 @@ function pagination(){
 	$('#pagination-wrap ul li:eq('+pos+')').addClass('active');
 }
 
-function functionAlert(msg, myYes) {
-    var confirmBox = $("#confirm");
-    confirmBox.find(".message").text(msg);
-    confirmBox.find(".close").unbind().click(function() {
-       confirmBox.hide();
-    });
-    confirmBox.find(".close").click(myYes);
-    confirmBox.show();
+function functionCart(pid, msg, myYes) {
+
+	console.log(pid);
+
+	// add cart session
+	axios.post("/add_cart", {
+		cart_insert: pid
+	})
+	.then((res) => {
+		console.log(res);
+
+		if (res.data == true) {
+			// show message
+			var confirmBox = $("#confirm");
+			confirmBox.find(".message p").text(msg + "장바구니 담기 완료");
+			confirmBox.find(".close").unbind().click(function() {
+			confirmBox.hide();
+			});
+			confirmBox.find(".close").click(myYes);
+			confirmBox.show();	
+		} else {
+			// show message
+			alert("장바구니 담기 실패");
+			var confirmBox = $("#confirm");
+			confirmBox.find(".message p").text("장바구니 담기 실패");
+			confirmBox.find(".close").unbind().click(function() {
+			confirmBox.hide();
+			});
+			confirmBox.find(".close").click(myYes);
+			confirmBox.show();	
+		}
+	})
+	.catch((e) => {
+		// show message
+		alert("장바구니 담기 실패");
+		var confirmBox = $("#confirm");
+		confirmBox.find(".message p").text("장바구니 담기 실패");
+		confirmBox.find(".close").unbind().click(function() {
+		confirmBox.hide();
+		});
+		confirmBox.find(".close").click(myYes);
+		confirmBox.show();
+	})
  }

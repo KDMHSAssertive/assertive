@@ -22,7 +22,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "pm2 start app.js --watch --ignore-watch \"node_modules *.html\" --no-daemon"
+    "test": "pm2 start app.js --watch --ignore-watch \"node_modules front\" --no-daemon"
   },
   "repository": {
     "type": "git",
