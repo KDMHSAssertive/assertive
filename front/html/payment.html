@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="kor" dir="ltr">
+  <head>
+    <% include ./head_formal %>
+    <title>Assertive: 결제</title>
+    <link rel="stylesheet" type="text/css" href="../css/payment/payment.css">
+  </head>
+  <body>
+
+<!-- 상단 네비게이션 바 -->
+  <% include ./nav_formal %>
+
+<!-- 1.주문상품 -->
+    <div class="big_box">
+      <div class="content_name">
+        <div id="bar"></div>
+        <div id="bar_text">주문 & 결제</div>
+      </div>
+      <div class="number_box">
+        <div class="list_name">1. 주문상품</div>
+      </div>
+      <div class="order_list">
+        <div class="list_text">상품명</div>
+        <div class="list_text">수량</div>
+        <div class="list_text">가격</div>
+        <div class="list_text">할인</div>
+        <div class="list_text">합계</div>
+      </div>
+      <div class="item_box">
+        <% for (var i = 0; i < paym_data.productInfo.length; i++) { %>
+          <div class="order_item">
+            <img src="<%= paym_data.productInfo[i].imgRoute%>" width="132.8px" height="132.8px">
+            <div class="item_name order_item_obj"><%= paym_data.productInfo[i].name%></div>
+            <div class="item_count item order_item_obj"><%= paym_data.productInfo[i].num %>개</div>
+            <div class="item_price item order_item_obj"><%= paym_data.productInfo[i].binfo.price %>원</div>
+            <div class="item_sale item order_item_obj"><%= paym_data.productInfo[i].binfo.sale %>원</div>
+            <div class="item_all item order_item_obj"><%= paym_data.productInfo[i].binfo.all %>원</div>
+          </div>
+        <% } %>
+      </div>
+      <div class="order_price">
+        <div id="small">총</div>
+        <div id="big"><%= paym_data.sum %>원</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:107.5px"></div>
+<!-- class="ship" 인것은 radio버튼이 들어가 있는것!! -->
+<!-- 3.주문자 정보 -->
+    <div class="big_box">
+      <div class="number_box">
+        <div class="list_name">3. 배송정보</div>
+      </div>
+      <div class="order_info">주문자 정보</div>
+
+      <div class="user slim_text">김수겸</div>
+      <div class="user slim_text">01021802751</div>
+      <div class="user slim_text">경기도 안산시 단원구 사세충열로 94 한국디지털미디어고등학교</div>
+
+      <div class="ship">
+        <div class="type_name bold_text">배송 타입</div>
+        <div class="radio">
+          <label class="box-radio-input">
+            <input type="radio" name="ship_type" value="일반 배송" checked="checked">
+            <div><div></div></div>
+          </label>
+          <div class="radio_text slim_text">일반 배송</div>
+        </div>
+        <div class="radio">
+          <label class="box-radio-input"><input type="radio" name="ship_type" value="새벽 배송">
+            <div><div></div></div>
+          </label>
+          <div class="radio_text slim_text">새벽 배송</div>
+        </div>
+      </div>
+
+      <div class="ship">
+        <div class="type_name bold_text">배송지 선택</div>
+        <div class="radio">
+          <label class="box-radio-input">
+            <input type="radio" name="choose_ship" value="주문자 정보와 동일" checked="checked">
+            <div><div></div></div>
+          </label>
+          <div class="radio_text slim_text">주문자 정보와 동일</div>
+        </div>
+        <div class="radio">
+          <label class="box-radio-input"><input type="radio" name="choose_ship" value="신규배송지">
+            <div><div></div></div>
+          </label>
+          <div class="radio_text slim_text">신규배송지</div>
+        </div>
+      </div>
+
+      <div class="ship">
+        <div class="bold_text">수령인</div>
+        <div class="simple_text slim_text">김수겸</div>
+      </div>
+
+      <div class="ship">
+        <div class="bold_text">연락처1</div>
+        <div class="simple_text slim_text">01021802751</div>
+      </div>
+
+      <div class="ship">
+        <div class="bold_text">연락처2</div>
+        <div class="simple_text slim_text">01021802751</div>
+      </div>
+
+      <div class="address">
+        <div class="top">
+          <div class="bold_text">주소</div>
+          <div class="middle_text">기본주소 | </div>
+          <div class="simple_location">
+            <div class="slim_text">경기도 안산시 사세충열로 94 </div>
+            <button type="button" name="find_local" id="find_local">주소찾기</button>
+          </div>
+        </div>
+        <div class="bottom">
+          <div class="middle_text">상세주소 | </div>
+          <div class="slim_text semi_local">한국디지털미디어고등학교 2학년 4반</div>
+        </div>
+      </div>
+      <div class="want">
+        <div class="want_text bold_text">배송 요청사항</div>
+        <select class="want_list slim_text" name="want_list">
+          <option value="office">부재시 경비실에 맡겨주세요</option>
+          <option value="front">부재시 현관에 놓아주세요</option>
+          <option value="call">부재시 연락 부탁드립니다</option>
+        </select>
+      </div>
+    </div>
+
+
+    <!-- 3. 결제 정보 -->
+    <div class="big_box">
+      <div class="number_box">
+        <div class="list_name">3. 결제정보</div>
+      </div>
+      <div class="ship">
+          <div class="type_name bold_text">결제 타입</div>
+          <div class="radio">
+            <label class="box-radio-input">
+              <input type="radio" name="pay_type" value="카드결제" checked="checked" onclick="card_pay()">
+              <div><div></div></div>
+            </label>
+            <div class="radio_text slim_text">카드결제</div>
+          </div>
+          <div class="radio">
+            <label class="box-radio-input">
+              <input type="radio" name="pay_type" value="계좌이체" onclick="cash_pay()">
+              <div><div></div></div>
+            </label>
+            <div class="radio_text slim_text">계좌이체</div>
+          </div>
+        </div>
+      <div class="card_pay" style="width: 80%;">
+        <div class="ship" style="width: 100%;">
+            <div class="type_name bold_text">카드 구분</div>
+            <div class="radio">
+              <label class="box-radio-input">
+                <input type="radio" name="card_type" value="개인카드" checked="checked">
+                <div><div></div></div>
+              </label>
+              <div class="radio_text slim_text">개인카드</div>
+            </div>
+            <div class="radio">
+              <label class="box-radio-input">
+                <input type="radio" name="card_type" value="법인카드">
+                <div><div></div></div>
+              </label>
+              <div class="radio_text slim_text">법인카드</div>
+            </div>
+          </div>
+        <div class="choose_card">
+          <div class="card_text bold_text">카드 선택</div>
+          <select class="card_list" name="card_list">
+            <option value="kb">국민카드</option>
+            <option value="hyundai">현대카드</option>
+            <option value="bc">BC카드</option>
+            <option value="hana">하나카드</option>
+          </select>
+        </div>
+        <div class="installment">
+          <div class="day_text bold_text">할부 기간</div>
+          <select class="day_list" name="day_list">
+            <option value="allpay">일시불</option>
+            <option value="1month">1개월</option>
+            <option value="3month">3개월</option>
+            <option value="6month">6개월</option>
+            <option value="12month">12개월</option>
+          </select>
+        </div>
+      </div>
+      <div class="cash_pay" style="display:none">
+        <div class="cash_ship">
+          <div class="type_name bold_text">현금영수증</div>
+          <div class="radio">
+              <label class="box-radio-input">
+                <input type="radio" name="check_bill" value="신청함" checked="checked" onclick="use_bill()">
+                <div><div></div></div>
+              </label>
+              <div class="radio_text slim_text">신청하기</div>
+            </div>
+          <div class="radio">
+              <label class="box-radio-input">
+                <input type="radio" name="check_bill" value="신청안함" onclick="no_bill()">
+                <div><div></div></div>
+              </label>
+              <div class="radio_text slim_text">신청안함</div>
+            </div>
+        </div>
+        <div class="bill_use">
+          <div class="radio">
+              <label class="box-radio-input">
+                <input type="radio" name="bill_type" value="개인" checked="checked" onclick="person_only()">
+                <div><div></div></div>
+              </label>
+              <div class="radio_text slim_text">개인소득공제용</div>
+            </div>
+          <div class="radio">
+              <label class="box-radio-input">
+                <input type="radio" name="bill_type" value="사업자" onclick="ceo_only()">
+                <div><div></div></div>
+              </label>
+              <div class="radio_text slim_text">사업자증빙용(세금계산서용)</div>
+            </div>
+        </div>
+        <div class="phone">
+          <select class="phone_list slim_text" name="phone_list">
+            <option value="office">휴대폰번호</option>
+            <option value="front">현금영수증카드</option>
+          </select>
+
+          <select class="phone_first slim_text" name="phone_first">
+            <option value="010">010</option>
+            <option value="011">011</option>
+            <option value="012">012</option>
+          </select>
+          -
+          <input type="text" class="second_num number"placeholder="0000">
+          -
+          <input type="text" class="third_num number"placeholder="0000">
+        </div>
+
+        <div class="ceo_number" style="display:none">
+          <span class="slim_text">사업자 등록번호</span>
+          <input type="text" class="first_ceo_n">
+          -
+          <input type="text" class="second_ceo_n">
+          -
+          <input type="text" class="third_ceo_n">
+        </div>
+      </div>
+    </div>
+    <!-- 약관 동의 -->
+    <div class="big_box">
+      <div class="agreement">
+        <label class="check">
+          <input type="checkbox" name="agreement" value="agree">
+          <div></div>
+        </label>
+        <div class="agreement_text bold_text">전체 약관 동의</div>
+      </div>
+      <div class="check_text slim_text">위 상품의 구매조건 확인 및 결제진행 동의</div>
+      <button type="button" name="pay" id="pay_button">결제하기</button>
+    </div>
+
+    <% include ./footer_formal %>
+
+
+    <script type="text/javascript" src="../js/payment/payment.js"></script>
+</body>
+</html>

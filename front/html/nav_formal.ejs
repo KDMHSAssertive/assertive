@@ -1,0 +1,224 @@
+<div id="nav">
+    <img src="../img/logo.png" alt="" class="logo">
+    <div class="navbar">
+        <span class="blank"></span>
+        <ul>
+            <li><a href="/community" class="community">COMMUNITY</a></li>
+            <li><a href="#" class="gallery">GALLERY</a></li>
+            <li><a href="/order" class="order">주문</a></li>
+            <li><a href="#" class="cart">장바구니</a></li>
+            <% if (status == true) { %>
+                <li><a class="login" id="logout" style="cursor: pointer;">로그아웃</a></li>
+            <% } else { %>
+                <li><a href="/login" class="login">로그인</a></li>
+            <% } %>
+        </ul>
+    </div>
+</div>
+
+<style>
+    a {
+        text-decoration-line: none;
+    }
+    #nav * {
+        font-family: 'AppleSDGothicNeoSB';
+    }
+    @media all and (min-width:1025px) {
+        #nav {
+            background-color: #232b39;
+            padding: 0 65px;
+        }
+
+        .logo, .navbar {
+            display: inline-block;
+        }
+
+        .logo {
+            margin: 1vh 0;
+            width: 200px;
+        }
+
+        .navbar {
+            float: right;
+            margin: auto 0;
+        }
+
+        .blank{
+            display:inline-block;
+            vertical-align:middle;
+            width:0;
+            height:80px;
+            overflow:hidden;
+        }
+
+        .navbar ul {
+            list-style:none;
+            display:inline-block;
+            vertical-align:middle;
+        }
+
+        .navbar ul li {
+            display: inline-block;
+            font-size: 18px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.19;
+            letter-spacing: 2.27px;
+            margin-right: 1vw;
+
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            position: relative;
+        }
+
+        .navbar ul li a:hover:after {
+            content: '';
+            position:absolute;
+            bottom: -25%;
+            left: 0%;
+            right: 0%;
+            height: 3px;
+            background: linear-gradient(to left, #16cede, #16e7ba);;
+            display:block;
+        }
+
+        .navbar ul li .order::after {
+            content: '';
+            position:absolute;
+            bottom: -25%;
+            left: 0%;
+            right: 0%;
+            height: 3px;
+            background: linear-gradient(to left, #16cede, #16e7ba);;
+            display:block;
+        }
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+        #nav {
+            background-color: #232b39;
+            padding: 0 55px;
+        }
+        
+        .logo, .navbar {
+            display: inline-block;
+        }
+        
+        .logo {
+            margin: 1vh 0;
+            width: 150px;
+        }
+        
+        .navbar {
+            float: right;
+            margin: auto 0;
+        }
+        
+        .blank{
+            display:inline-block;
+            vertical-align:middle;
+            width:0;
+            height:50px;
+            overflow:hidden;
+        }
+        
+        .navbar ul {
+            list-style:none;
+            display:inline-block;
+            vertical-align:middle;
+        }
+        
+        .navbar ul li {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.19;
+            letter-spacing: 2.27px;
+            margin-right: 1vw;
+        
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            position: relative;
+        }
+        
+        .navbar ul li a:hover:after {
+            content: '';
+            position:absolute;
+            bottom: -25%;
+            left: 0%;
+            right: 0%;
+            height: 3px;
+            background: linear-gradient(to left, #16cede, #16e7ba);;
+            display:block;
+        }
+        
+        .navbar ul li .order::after {
+            content: '';
+            position:absolute;
+            bottom: -25%;
+            left: 0%;
+            right: 0%;
+            height: 3px;
+            background: linear-gradient(to left, #16cede, #16e7ba);;
+            display:block;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        .navbar {
+            margin: auto 0;
+        }
+        
+        .navbar ul {
+            list-style:none;
+            display:inline-block;
+            vertical-align:middle;
+        }
+        
+        .navbar ul li {
+            display: block;
+            font-size: 15px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.19;
+            letter-spacing: 2.27px;
+            margin-bottom: 2.5vw;
+        
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            position: relative;
+        }
+        
+        .navbar ul li a:hover:after {
+            content: '';
+            position:absolute;
+            bottom: -25%;
+            left: 0%;
+            right: 0%;
+            height: 3px;
+            background: linear-gradient(to left, #16cede, #16e7ba);;
+            display:block;
+        }
+        
+        .navbar ul li .order::after {
+            content: '';
+            position:absolute;
+            bottom: -25%;
+            left: 0%;
+            right: 0%;
+            height: 3px;
+            background: linear-gradient(to left, #16cede, #16e7ba);;
+            display:block;
+        }
+    }
+</style>

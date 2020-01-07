@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/login/login.css">
+    <link rel="stylesheet" type='text/css' href="../css/all.css">
+    <title>Assertive - Login</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#five").click(() => {
+                console.log("Login try");
+                const id_input = document.getElementById("id").value;
+                const pw_input = document.getElementById("pw").value;
+                axios.post('/login', {
+                    id: id_input,
+                    pw: pw_input
+                })
+                .then(({data}) => {
+                    // alert(data);
+                    if (data.yn == true && data.test ==  true) {
+                        alert("테스트 로그인이 활성화되어있습니다.");
+                        location.href="/";
+                    } else if (data.yn == true) {
+                        alert(data.name + "님, 환영합니다");
+                        location.href="/";
+                    } else {
+                        alert("아이디 혹은 비밀번호가 틀렸습니다");
+                        location.reload();
+                    }
+                })
+            })
+            $("#six").click(() => {
+                location.href="/register";
+            })
+        })
+    </script>
+
+</head>
+
+<body>
+    <p class="one">
+        <img src="./img/logo.png" width="430">
+    </p>
+    <div id="three">
+        <label for="id"></label>
+        <input type="text" id="id" class="name input" placeholder="아이디를 입력해 주세요." />
+    </div>
+    <div id="four">
+        <label for="pw"></label>
+        <input type="password" id="pw" class="name input" placeholder="비밀번호를 입력해 주세요." />
+    </div>
+    <div id="five">
+        LOGIN
+    </div>
+    <div id="six">
+        SIGN UP
+    </div>
+    <footer class="footer">
+        Coptright @ 2019 Korea Digital media High School ASSERTIVE, All Rights Reserved
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% include ./head_formal %>
+    <title>상품 상세: <%= prod_data.name%></title>
+    <link rel="stylesheet" type="text/css" href="../css/prod_spec/prod_spec.css">
+</head>
+<body>
+    <% include ./nav_formal %>
+
+    <div class="main">
+        <div class="product_area">
+            <div class="img_area">
+                <div class="main_image_wrapper">
+                    <img class="main_image" src="./img/image2.jpg">
+                    <img class="day_express" src="./img/day_express.png"/>
+                </div>
+                <div class="product_recom">
+                    <p class="product_reecom_t">추천상품 > </p>
+                    <div class="bar bar_bottom_recom"></div>
+                    <div class="rec_imgs">
+                        <img src="./img/image1.jpg">
+                        <img src="./img/image2.jpg">
+                        <img src="./img/image3.jpg">
+                        <img src="./img/image4.jpg">
+                    </div>
+                </div>
+            </div>
+            <div class="info_area">
+                <div class="contents_inner">
+                    <p class="title">한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 600g</p>
+                    <div class="price_area">
+                        <p class="price_origin">Na원</p>
+                        <p class="price_discounted">Na원</p>
+                    </div>
+                    <div class="plant_date_info">
+                        <p>당일 재배</p>
+                    </div>
+                    <div class="send_info">
+                        <div class="bar bar_top_send_info"></div>
+                        <img src="./img/delivery-truck.png">
+                        <p class="fee">배송비 2,500원</p>
+                        <p class="date_start">내일 출발 예정</p>
+                    </div>
+                    <div class="product_ask">
+                        <div class="bar bar_top_send_info"></div>
+                        <img src="./img/headset.png">
+                        <p class="ask">상품 문의하기</p>
+                    </div>
+                    <div class="product_num_area">
+                        <p class="product_num_title">수량</p>
+                        <div class="product_num_control">
+                            <div class="btn_plus btn_num">
+                                <p>+</p>
+                            </div>
+                            <div class="product_num">
+                                <p class="product_num_text">0</p>
+                            </div>
+                            <div class="btn_minus btn_num">
+                                <p>-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <% include ./footer_formal %>
+
+    <script src="js/index.js"></script>
+</body>
+</html>

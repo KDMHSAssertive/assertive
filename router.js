@@ -75,7 +75,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
     })
 
 
-    //community page
+    // community page
     app.get('/community', function(req, res) {
         console.log("Page approached: community");
         res.render("community1.html");
@@ -86,7 +86,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         res.render("community2.html");
     })
 
-    //order page
+    // order page
     app.get('/order', function(req, res) {
         console.log("Page approached: order");
         let prod_data;
@@ -124,7 +124,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
 
 
 
-
+    // cart page
     app.get('/cart', function(req, res) {
         console.log("Page approached:c cart");
         if (req.session != undefined && req.session.user != undefined) {
@@ -136,6 +136,159 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
             res.statusCode = 302;
             res.setHeader('Location', '/login');
             res.end();
+        }
+    })
+
+
+    // product specific page
+    app.get('/spec', function(req, res) {
+        const query = req.query;
+        let status;
+        if (req.session != undefined && req.session.user != undefined) {
+            status = true;
+        } else {
+            status = false;
+        }
+
+        if (query.prodid == undefined) {
+            res.statusCode = 302;
+            res.setHeader('Location', '/');
+            res.end();
+        } else {
+            console.log("Page approached: spec (" + query.prodid + ")");
+
+            let prod_data;
+            prod_data = {
+                name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
+                price: 8760,
+                prodid: "c3018582834",
+                deliverCharge: 2500
+            }
+
+            res.render("prod_spec.html", {
+                prod_data,
+                status
+            });
+        }
+    })
+
+
+    // payment page
+    app.get('/payment', function(req, res) {
+        const query = req.query;
+        let status;
+        if (req.session != undefined && req.session.user != undefined) {
+            status = true;
+        } else {
+            status = false;
+        }
+
+        if (query.paymid == undefined) {
+            res.statusCode = 302;
+            res.setHeader('Location', '/order');
+            res.end();
+        } else {
+            console.log("Page approached: payment (" + query.paymid + ")");
+
+            // let payReqProd;
+            // payReqProd = [
+            //     {
+            //         name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
+            //         origPrice: 9000,
+            //         salePrice: 8760,
+            //         prodid: "c3018582834",
+            //         deliverCharge: 2500,
+            //         imgRoute: "http://localhost/img/example.png",
+            //     },
+            //     {
+            //         name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
+            //         origPrice: 9000,
+            //         salePrice: 8760,
+            //         prodid: "c3018582834",
+            //         deliverCharge: 2500,
+            //         imgRoute: "http://localhost/img/example.png",
+            //     },
+            //     {
+            //         name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 120g",
+            //         origPrice: 18000,
+            //         salePrice: 10060,
+            //         prodid: "c3018582835",
+            //         deliverCharge: 2500,
+            //         imgRoute: "http://localhost/img/example.png",
+            //     }
+            // ]
+
+            let payReqProd;
+            payReqProd = ["c3018582834", "c3018582834", "c3018582835"];
+
+            let product = {};
+
+            for (var i = 0; i < payReqProd.length; i++) {
+                console.log(product);
+                console.log(Object.keys(product).toString().indexOf(payReqProd[i]));
+                if (Object.keys(product).toString().indexOf(payReqProd[i]) < 0) {
+                    product[payReqProd[i]] = 1;
+                } 
+                else {
+                    product[payReqProd[i]]++;
+                }
+            }
+
+            // load product info
+
+            let productInfo = [
+                {
+                    name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
+                    origPrice: 9000,
+                    salePrice: 8760,
+                    prodid: "c3018582834",
+                    deliverCharge: 2500,
+                    imgRoute: "http://localhost/img/example.png",
+                    num: 2
+                },
+                {
+                    name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 120g",
+                    origPrice: 18050,
+                    salePrice: 10060,
+                    prodid: "c3018582835",
+                    deliverCharge: 2500,
+                    imgRoute: "http://localhost/img/example.png",
+                    num: 1
+                }
+            ]
+
+            let sum = 0;
+
+            console.log(productInfo.length);
+
+            for (var j = 0; j < productInfo.length; j++) {
+                console.log(j);
+                var price = productInfo[j].salePrice * productInfo[j].num
+                var all = Math.floor(price /100 ) * 100
+                var sale = price - all;
+                productInfo[j].binfo = {
+                    price,
+                    all,
+                    sale
+                }
+                console.log(productInfo[j].binfo);
+                sum += all;
+            }
+
+            let paym_data;
+            paym_data = {
+                paymId: "test_234354fcnvwud",
+                reqdate: "2020-01-09",
+                productInfo,
+                sum
+            }
+
+            console.log(paym_data);
+
+            res.render("payment.html", {
+                status,
+                paym_data: paym_data
+            });
         }
     })
 

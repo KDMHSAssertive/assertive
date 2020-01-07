@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <% include ./head_formal %>
+    <title>Assertive - 주문</title>
+    <link rel="stylesheet" href="../css/order/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="../css/order/order.css">
+    <script src="../js/order/index.js"></script>
+</head>
+
+<body>
+    <% include ./nav_formal %>
+
+    <div id="main">
+        <div class="container">
+            <div class="four columns">
+                <div id="wrapper">
+                    <div id="slider-wrap">
+                        <ul id="slider">
+                            <li>
+                                <img src="../img/assertive.jpg">
+                            </li>
+                            <li>
+                                <img src="../img/assertive2.png">
+                            </li>
+                            <li>
+                                <img src="../img/assertive.jpg">
+                            </li>
+                        </ul>
+
+                        <div class="btns" id="next"><i class="fas fa-arrow-right"></i></div>
+                        <div class="btns" id="previous"><i class="fas fa-arrow-left"></i></div>
+
+                        <div id="pagination-wrap">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="eight columns">
+                <div id="product">
+                    <% for (var i = 0; i < prod.length; i++) { %>
+                        <div class="card">
+                            <img class="product_image" src="../img/image1.jpg" alt="">
+                            <p class="delivery_charge">배송비 | <%= prod[i].deliverCharge%>원</p>
+                            <p class="product_name"><%= prod[i].name %></p>
+                            <p class="price"><%= prod[i].price%> 원</p>
+                            <button class="order_button">
+                                <a href="/payment?paymid=132435ijgfw0" class="order_text" style="color: inherit;">주문하기</a>
+                            </button>
+                            <button class="shopping_basket">
+                                <p class="shopping_basket_text" onclick="functionCart('<%= prod[i].prodid%>', 'test');">장바구니</p>
+                            </button>
+                        </div>
+                    <% } %>
+
+                    <div id="confirm">
+                        <div class="close"><i class="fa fa-times"></i></div>
+                        <div class="message"><img src="../img/shopping-cart-button.png" alt=""><p style="display: unset;"></p></div>
+                        <br>
+                        <button class="yes" onclick="location.href='/cart'">장바구니 확인하기</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <% include ./footer_formal %>
+    <script src="../js/order/index.js"></script>
+
+</body>
+
+</html>
