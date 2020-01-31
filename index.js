@@ -10,7 +10,6 @@ const getIP = require('ipware')().get_ip;
 const crypto = require('crypto');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const cryoto = require('crypto');
 const async = require('async');
 require('date-utils');
 

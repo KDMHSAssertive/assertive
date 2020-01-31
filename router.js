@@ -1,4 +1,4 @@
-module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, mysql_connection, ip_mysql, pw_security) {
+module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, mysql_connection, ip_mysql, pw_security, mysql_query, async) {
 
 
     //mysql tools (not completely developed!!)
