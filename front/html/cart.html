@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <% include ./head_formal %>
+    <title>Assertive - 장바구니</title>
+    <link rel="stylesheet" type="text/css" href="../css/cart/cart.css">
+    <script src="../js/cart/cart.js"></script>
+    <script>
+      $(document).ready(() => {
+        $("a.cart").addClass("selected");
+      })
+    </script>
+</head>
+
+<body>
+    <% include ./nav_formal %>
+    
+    
+    <div class="main">
+      <div class="title-area">
+        <div class="title-bar"></div>
+        <p class="title">장바구니</p>
+      </div>
+      <div class="contents-area">
+        <div class="list-titles cart-list">
+          <p class="productImg"></p>
+          <p class="productTitle prodTitle">상품명</p>
+          <p class="productAmount">수량</p>
+          <p class="productPrice">가격</p>
+          <p class="productSelected">선택</p>
+        </div>
+        <div class="cart-cont">
+          <% for (var i = 0; i < cart.length; i++) { %>
+            <div class="list-contents cart-list">
+              <img class="cartImg-<%= cart[i].barcode%>" src="<%= cart[i].imgRoute%>"/>
+              <p class="listTitle prodTitle"><%= cart[i].name%></p>
+              <p class="listNum"><%= cart[i].num%></p>
+              <p class="listPrice"><%= cart[i].price * cart[i].num%></p>
+              <input type="checkbox" class="listSelector" name="<%= cart[i].barcode %>" onclick="selectFromCart(<%= cart[i].barcode%>)"/>
+            </div>  
+          <% } %>
+        </div>
+        <div class="cart-control">
+          <div class="cart-button cart-clear">
+            <p class="cart-text">카트 비우기</p>
+          </div>
+          <div class="cart-button cart-payAll">
+            <p class="cart-text">카트상품 전체결제</p>
+          </div>
+          <div class="cart-button cart-paySel">
+            <p class="cart-text">선택상품 결제</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% include ./footer_formal %>
+    <script src="../js/order/index.js"></script>
+
+</body>
+
+</html>
