@@ -1,42 +1,6 @@
 module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, mysql_connection, ip_mysql, pw_security, mysql_query, async) {
 
-
-    //mysql tools (not completely developed!!)
-
-
-    function query_mysql(command) {
-        console.log('query_mysql');
-        mysql_connection.query(command, function(err, res, fields) {
-            if (err) {
-                throw err;
-            } else {
-                // console.log(`
-                //     --------- response: ------
-                // `);
-                // for (var i = 0; i < res.length; i++) {
-                //     console.log(res[i]);
-                // }
-                console.log("OK");
-                // console.log(res);
-                return res;
-            }
-        });
-    }
-
-    function getFormatDate(date){ 
-        var year = date.getFullYear();	//yyyy
-        var month = (1 + date.getMonth());	//M 
-        month = month >= 10 ? month : '0' + month;	//month 두자리로 저장 
-        var day = date.getDate();	//d
-        day = day >= 10 ? day : '0' + day;	//day 두자리로 저장 
-        return year + '' + month + '' + day; 
-    }
-
-
-
-    //get router
-
-
+    // get router
 
     //main page
     app.get('/', function(req, res) {
@@ -92,33 +56,38 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         let prod_data;
 
         if (req.session != undefined && req.session.user != undefined) {
-            prod_data = [{
-                name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
-                price: 8760,
-                prodid: "c3018582834",
-                deliverCharge: 2500
-            },
-            {
-                name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g * 2",
-                price: 10000,
-                prodid: "c3018582834",
-                deliverCharge: 2500
-            },
-            {
-                name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g * 3",
-                price: 25000,
-                prodid: "c3018582834",
-                deliverCharge: 2500
-            }]
-            res.render("order.html", {
-                prod: prod_data,
-                uinfo: req.session.user,
-                status: true
-            });   
+            // prod_data = [{
+            //     name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
+            //     price: 8760,
+            //     prodid: "c3018582834",
+            //     deliverCharge: 2500
+            // },
+            // {
+            //     name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g * 2",
+            //     price: 10000,
+            //     prodid: "c3018582834",
+            //     deliverCharge: 2500
+            // },
+            // {
+            //     name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g * 3",
+            //     price: 25000,
+            //     prodid: "c3018582834",
+            //     deliverCharge: 2500
+            // }]
+            mysql_query("SELECT * FROM product")
+            .then((res_sql) => {
+                res.render("order.html", {
+                    prod: res_sql,
+                    uinfo: req.session.user,
+                    status: true
+                });
+            })
+            .catch((e) => {
+                console.error(e);
+                res.redirect('/');
+            })
         } else {
-            res.statusCode = 302;
-            res.setHeader('Location', '/login');
-            res.end();
+            res.redirect('/login');
         }
     });
 
@@ -604,13 +573,33 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         if (cart == undefined) {
             cart = [];
         }
-        cart.push(cart_insert);
+        // cart.push(cart_insert);
 
-        req.session.cart = cart;
+        if (req.session.user != undefined || req.session.user != null || req.session.user != {}) {
+            mysql_query("SELECT * FROM cart WHERE userid='" + req.session.user.id + "'")
+            .then((res_sql) => {
+                // console.log(res_sql);
+                if (res_sql.length == 0) {
+                    mysql_query("INSERT INTO cart (userid, cartInfo) VALUES ('" + req.session.user.id + "', '" + cart_insert + "')")
+                } else {
+                    let origin = res_sql[0].cartInfo;
+                    let pusher = origin.split(",");
+                    pusher.push(cart_insert);
+                    mysql_query("UPDATE cart SET cartInfo='" + pusher + "' WHERE userid='" + req.session.user.id + "'");
+                }
+                res.end("true");
+            })
+            .catch((e) => {
+                console.error(e);
+                res.redirect('/');
+            })
+        } else {
+            res.redirect('/login');
+        }
 
-        console.log(req.session.cart)
+        // req.session.cart = cart;
 
-        res.end("true");
+        // console.log(req.session.cart)
     })
 
     app.post('/reset_cart', function(req, res) {

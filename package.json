@@ -23,8 +23,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "pm2 start app.js --watch --ignore-watch \"node_modules front\" --no-daemon",
-    "start": "pm2 start app.js"
+    "test": "pm2 start index.js --watch --ignore-watch \"node_modules front\" --no-daemon",
+    "start": "pm2 start index.js"
   },
   "repository": {
     "type": "git",

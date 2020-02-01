@@ -1,12 +1,12 @@
 <div id="nav">
-    <img src="../img/logo.png" alt="" class="logo">
+    <img src="../img/logo.png" alt="" class="logo" onclick="location.href='/'">
     <div class="navbar">
         <span class="blank"></span>
         <ul>
             <li><a href="/community" class="community">COMMUNITY</a></li>
             <li><a href="#" class="gallery">GALLERY</a></li>
             <li><a href="/order" class="order">주문</a></li>
-            <li><a href="#" class="cart">장바구니</a></li>
+            <li><a href="/cart" class="cart">장바구니</a></li>
             <% if (status == true) { %>
                 <li><a class="login" id="logout" style="cursor: pointer;">로그아웃</a></li>
             <% } else { %>
@@ -85,7 +85,7 @@
             display:block;
         }
 
-        .navbar ul li .order::after {
+        .navbar ul li .selected::after {
             content: '';
             position:absolute;
             bottom: -25%;
@@ -159,7 +159,7 @@
             display:block;
         }
         
-        .navbar ul li .order::after {
+        .navbar ul li .selected::after {
             content: '';
             position:absolute;
             bottom: -25%;
@@ -210,7 +210,7 @@
             display:block;
         }
         
-        .navbar ul li .order::after {
+        .navbar ul li .selected::after {
             content: '';
             position:absolute;
             bottom: -25%;
