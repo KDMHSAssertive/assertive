@@ -1,4 +1,91 @@
 module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, mysql_connection, ip_mysql, pw_security, mysql_query, async) {
+    
+    
+    // custom array.prototype declaration
+    
+    Array.prototype.jsonIncludes = function (key, values, options) {
+        let option;
+        if (options == undefined) {
+            option = {};
+        } else {
+            option = options;
+        }
+        let thisGlob = this;
+        let returnobj = [];
+        thisGlob.filter((obj) => {
+            if (obj[key] == values) {
+                if (option.output == "index" || option.output == undefined) {
+                    returnobj.push(thisGlob.indexOf(obj))
+                } else if (option.output == "object") {
+                    returnobj.push(obj);
+                }
+            }
+        });
+        if (option.output == "object") return returnobj;
+        else return (returnobj.toString() == "" ? -1 : returnobj.toString());
+    }
+    
+    
+    // specific product info loading
+    
+    function getProdData(i, prodlist, savepoint) {
+      console.log("sef");
+        if (savepoint.jsonIncludes("prodid", prodlist[i]) == -1) {
+            mysql_query("SELECT * FROM product WHERE prodid='" + prodlist[i] + "'")
+            .then((res_sql) => {
+                if (res_sql.length > 0) {
+                    let data = res_sql[0];
+                    data.num = 1;
+                    savepoint.push(data);
+                }
+            })
+        } else {
+            savepoint[savepoint.jsonIncludes("prodid", prodlist[i])].num++;
+        }
+        if (i < prodlist.length-1) {
+            getProdData(++i, prodlist, savepoint);
+        } else {
+            return savepoint;
+        }
+    }
+    
+    function getSpecProd(location, prodarr) {
+        return new Promise((resolve, reject) => {
+            async.waterfall([
+                (callback) => {
+                    if (req.session.user != undefined || req.session.user.id == "" || req.session.user == null) {
+                        reject("ERR: NOT LOGINED");
+                    } else {
+                        callback(null, req.session.user);
+                    }
+                },
+                (uinfo, callback) => {
+                    let prodSList = [];
+                    if (location == "cart") {
+                        mysql_query("SELECT * FROM cart WHERE userid='" + uinfo.id + "'")
+                        .then((res_sql) => {
+                            if (res_sql.length <= 0) {
+                                resolve([]);
+                            } else {
+                                callback(null, uinfo, res_sql[0]);
+                            }
+                        })
+                    } else {
+                        callback(null, uinfo, prodarr);
+                    }
+                },
+                (uinfo, prodarr, callback) => {
+                    getProdData(0, prodarr, [])
+                    .then((specData) => {
+                        console.log(specData);
+                        callback(null, specData);
+                    })
+                }
+            ], (err, result) => {
+                resolve(specData);
+            })
+        })
+    }
 
     // get router
 
@@ -7,6 +94,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         // res.end('server loaded');
         console.log("Page approached: index");
         if(req.session.user) {
+            getSpecProd("cart");
             res.render("index.html", {
                 status: true,
                 uinfo: req.session.user
