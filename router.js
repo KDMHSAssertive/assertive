@@ -1,23 +1,20 @@
-module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, mysql_connection, ip_mysql, pw_security, mysql_query, async) {
+module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, mysql_connection, ip_mysql, pw_security, mysql_query, async, makeid, getTime) {
     
     
     // custom array.prototype declaration
     
     Array.prototype.jsonIncludes = function (key, values, options) {
         let option;
-        if (options == undefined) {
-            option = {};
-        } else {
-            option = options;
-        }
+        options == undefined ? option = {} : option = options;
         let thisGlob = this;
         let returnobj = [];
         thisGlob.filter((obj) => {
             if (obj[key] == values) {
-                if (option.output == "index" || option.output == undefined) {
-                    returnobj.push(thisGlob.indexOf(obj))
-                } else if (option.output == "object") {
-                    returnobj.push(obj);
+                switch (option.output) {
+                    case "object":
+                        returnobj.push(obj);
+                    default:
+                        returnobj.push(thisGlob.indexOf(obj));
                 }
             }
         });
@@ -82,7 +79,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
                     if (location == "cart") {
                         mysql_query("SELECT * FROM cart WHERE userid='" + uinfo.id + "'")
                         .then((res_sql) => {
-                            console.log(res_sql);
+                            // console.log(res_sql);
                             if (res_sql.length <= 0) {
                                 resolve([]);
                             } else {
@@ -96,7 +93,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
                 (uinfo, prodarr, callback) => {
                     getProdData(0, prodarr, [])
                     .then((specData) => {
-                        console.log(specData);
+                        // console.log(specData);
                         callback(null, specData);
                     })
                 }
@@ -149,12 +146,16 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
     // community page
     app.get('/community', function(req, res) {
         console.log("Page approached: community");
-        res.render("community1.html");
+        res.render("community1.html", {
+            status: req.session.user == undefined ? false : true
+        });
     })
 
     app.get('/community/wfarm', function(req, res) {
         console.log("Page approached: community/wfarm");
-        res.render("community2.html");
+        res.render("community2.html", {
+            status: req.session.user == undefined ? false : true
+        });
     })
 
     // order page
@@ -239,138 +240,118 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         } else {
             console.log("Page approached: spec (" + query.prodid + ")");
 
-            let prod_data;
-            prod_data = {
-                name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
-                price: 8760,
-                prodid: "c3018582834",
-                deliverCharge: 2500
-            }
+            // let prod_data;
 
-            res.render("prod_spec.html", {
-                prod_data,
-                status
-            });
+            mysql_query("SELECT * FROM product WHERE barcode='" + query.prodid + "'")
+            .then((prod_data) => {
+                res.render("prod_spec.html", {
+                    prod_data: prod_data[0],
+                    status
+                });
+            })
+            // prod_data = {
+            //     name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
+            //     price: 8760,
+            //     prodid: "c3018582834",
+            //     deliverCharge: 2500
+            // }
         }
     })
 
 
     // payment page
-    app.get('/payment', function(req, res) {
+    app.get('/payment/:type', function(req, res) {
         const query = req.query;
+        const params = req.params;
         let status;
         if (req.session != undefined && req.session.user != undefined) {
             status = true;
+
+            if (query.paymid == undefined) {
+                console.log("Page approached: payment - payment key making");
+                const paym_id = "pay-" + makeid(16, "num");
+                let cartInfo;
+                if (params.type == "cart") {
+                    mysql_query("SELECT * FROM cart WHERE userid='" + req.session.user.id + "'")
+                    .then((res_sql) => {
+                        mysql_query("INSERT INTO payment (paydate, Fuserip, userid, payid, paylist) VALUES ('" + getTime() + "', '" + getIP(req).clientIp + "', '" + req.session.user.id + "', '" + paym_id + "', '" + res_sql[0].cartInfo + "')");
+                        res.redirect('/payment/id?paymid=' + paym_id);
+                    })
+                } else {
+                    mysql_query("INSERT INTO payment (paydate, Fuserip, userid, payid, paylist) VALUES ('" + getTime() + "', '" + getIP(req).clientIp + "', '" + req.session.user.id + "', '" + paym_id + "', '" + query.prodlist + "')");
+                    res.redirect('/payment/id?paymid=' + paym_id);
+                }
+            } else {
+                console.log("Page approached: payment (" + query.paymid + ")");
+
+                let prodlist;
+
+                mysql_query("SELECT paylist from payment WHERE payid='" + query.paymid + "'")
+                .then((res_sql) => {
+                    if (res_sql.length == 0) {
+                        res.end(`
+                        <html>
+                            <head>
+                                <meta charset="utf-8">
+                                <script>
+                                    alert("정상적인 결제id가 아닙니다."); 
+                                    location.href = '/';
+                                </script>
+                            </head>
+                        </html>
+                        `);
+                    } else {
+                        // console.log(res_sql);
+                        prodlist = res_sql[0].paylist.split(",");
+                        getSpecProd(req.session.user, params.type, prodlist)
+                        .then((res_spec) => {
+
+                            let productInfo = res_spec;
+
+                            let sum = 0;
+
+                            // console.log(productInfo.length);
+
+                            for (var j = 0; j < productInfo.length; j++) {
+                                // console.log(j);
+                                var price = productInfo[j].price * productInfo[j].num
+                                var all = Math.floor(price /100 ) * 100
+                                var sale = price - all;
+                                productInfo[j].binfo = {
+                                    price,
+                                    all,
+                                    sale
+                                }
+                                // console.log(productInfo[j].binfo);
+                                sum += all;
+                            }
+                            
+                            let paym_data;
+                            paym_data = {
+                                paymId: query.paymid,
+                                reqdate: getTime(),
+                                productInfo,
+                                sum
+                            }
+                
+                            // console.log(paym_data);
+                
+                            res.render("payment.html", {
+                                status,
+                                paym_data
+                            });
+                        })
+                        .catch((e) => {
+                            console.error(e);
+                        })
+                    }
+                })
+            }
+
+
         } else {
             status = false;
-        }
-
-        if (query.paymid == undefined) {
-            res.statusCode = 302;
-            res.setHeader('Location', '/order');
-            res.end();
-        } else {
-            console.log("Page approached: payment (" + query.paymid + ")");
-
-            // let payReqProd;
-            // payReqProd = [
-            //     {
-            //         name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
-            //         origPrice: 9000,
-            //         salePrice: 8760,
-            //         prodid: "c3018582834",
-            //         deliverCharge: 2500,
-            //         imgRoute: "http://localhost/img/example.png",
-            //     },
-            //     {
-            //         name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
-            //         origPrice: 9000,
-            //         salePrice: 8760,
-            //         prodid: "c3018582834",
-            //         deliverCharge: 2500,
-            //         imgRoute: "http://localhost/img/example.png",
-            //     },
-            //     {
-            //         name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 120g",
-            //         origPrice: 18000,
-            //         salePrice: 10060,
-            //         prodid: "c3018582835",
-            //         deliverCharge: 2500,
-            //         imgRoute: "http://localhost/img/example.png",
-            //     }
-            // ]
-
-            let payReqProd;
-            payReqProd = ["c3018582834", "c3018582834", "c3018582835"];
-
-            let product = {};
-
-            for (var i = 0; i < payReqProd.length; i++) {
-                console.log(product);
-                console.log(Object.keys(product).toString().indexOf(payReqProd[i]));
-                if (Object.keys(product).toString().indexOf(payReqProd[i]) < 0) {
-                    product[payReqProd[i]] = 1;
-                } 
-                else {
-                    product[payReqProd[i]]++;
-                }
-            }
-
-            // load product info
-
-            let productInfo = [
-                {
-                    name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
-                    origPrice: 9000,
-                    salePrice: 8760,
-                    prodid: "c3018582834",
-                    deliverCharge: 2500,
-                    imgRoute: "http://localhost/img/example.png",
-                    num: 2
-                },
-                {
-                    name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 120g",
-                    origPrice: 18050,
-                    salePrice: 10060,
-                    prodid: "c3018582835",
-                    deliverCharge: 2500,
-                    imgRoute: "http://localhost/img/example.png",
-                    num: 1
-                }
-            ]
-
-            let sum = 0;
-
-            console.log(productInfo.length);
-
-            for (var j = 0; j < productInfo.length; j++) {
-                console.log(j);
-                var price = productInfo[j].salePrice * productInfo[j].num
-                var all = Math.floor(price /100 ) * 100
-                var sale = price - all;
-                productInfo[j].binfo = {
-                    price,
-                    all,
-                    sale
-                }
-                console.log(productInfo[j].binfo);
-                sum += all;
-            }
-
-            let paym_data;
-            paym_data = {
-                paymId: "test_234354fcnvwud",
-                reqdate: "2020-01-09",
-                productInfo,
-                sum
-            }
-
-            console.log(paym_data);
-
-            res.render("payment.html", {
-                status,
-                paym_data: paym_data
-            });
+            res.redirect('/login');
         }
     })
 
@@ -496,11 +477,11 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
 
     app.post('/logout', function(req, res) {
         console.log("logout requested");
-        console.log(req.session);
+        // console.log(req.session);
         req.session.destroy(function () {
             req.session;
         });
-        console.log(req.session);
+        // console.log(req.session);
         res.end();
     })
 

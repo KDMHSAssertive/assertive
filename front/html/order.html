@@ -49,14 +49,16 @@
                 <div id="product">
                     <% for (var i = 0; i < prod.length; i++) { %>
                         <div class="card">
-                            <img class="product_image" src="<%= prod[i].imageURL%>" alt="">
-                            <p class="delivery_charge">배송비 | 2500원</p>
-                            <p class="product_name"><%= prod[i].name %></p>
-                            <p class="price"><%= prod[i].price%> 원</p>
-                            <button class="order_button">
-                                <a href="/payment?paymid=132435ijgfw0" class="order_text" style="color: inherit;">주문하기</a>
+                            <div class="card-clicker" onclick="location.href = '/spec?prodid=<%= prod[i].barcode%>'" style="cursor: pointer;">
+                                <img class="product_image" src="<%= prod[i].imageURL%>" alt="">
+                                <p class="delivery_charge">배송비 | 2500원</p>
+                                <p class="product_name"><%= prod[i].name %></p>
+                                <p class="price"><%= prod[i].price%> 원</p>
+                            </div>
+                            <button class="order_button" style="cursor: pointer;" onclick="payDir('<%= prod[i].barcode%>')">
+                                <p class="order_text" style="color: inherit;">주문하기</p>
                             </button>
-                            <button class="shopping_basket">
+                            <button class="shopping_basket" style="cursor: pointer;">
                                 <p class="shopping_basket_text" onclick="functionCart('<%= prod[i].barcode%>', '<%= prod[i].name%>');">장바구니</p>
                             </button>
                         </div>

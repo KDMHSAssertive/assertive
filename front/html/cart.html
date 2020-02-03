@@ -33,22 +33,22 @@
         <div class="cart-cont">
           <% for (var i = 0; i < cart.length; i++) { %>
             <div class="list-contents cart-list">
-              <img class="cartImg-<%= cart[i].barcode%>" src="<%= cart[i].imgRoute%>"/>
+              <img style="width: auto; height: 60%; padding-top: 20px;" class="cartImg-<%= cart[i].barcode%>" src="<%= cart[i].imageURL%>"/>
               <p class="listTitle prodTitle"><%= cart[i].name%></p>
               <p class="listNum"><%= cart[i].num%></p>
               <p class="listPrice"><%= cart[i].price * cart[i].num%></p>
-              <input type="checkbox" class="listSelector" name="<%= cart[i].barcode %>" onclick="selectFromCart(<%= cart[i].barcode%>)"/>
+              <input type="checkbox" class="listSelector" name="<%= cart[i].barcode %>" onclick="selectFromCart(<%= cart[i].barcode%>, <%= cart[i].num%>)"/>
             </div>  
           <% } %>
         </div>
         <div class="cart-control">
-          <div class="cart-button cart-clear">
+          <div class="cart-button cart-clear" onclick="clearCart()">
             <p class="cart-text">카트 비우기</p>
           </div>
-          <div class="cart-button cart-payAll">
+          <div class="cart-button cart-payAll" onclick="payAll()">
             <p class="cart-text">카트상품 전체결제</p>
           </div>
-          <div class="cart-button cart-paySel">
+          <div class="cart-button cart-paySel" onclick="payItem()">
             <p class="cart-text">선택상품 결제</p>
           </div>
         </div>

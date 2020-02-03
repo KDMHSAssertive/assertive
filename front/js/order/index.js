@@ -94,3 +94,13 @@ function functionCart(pid, msg, myYes) {
 		confirmBox.show();
 	})
  }
+
+
+ function payDir(prodid) {
+	 let prodArr = [];
+	 const num = prompt("구매 수량을 입력해주세요");
+	 for (var i = 0; i < num; i++) {
+		 prodArr.push(prodid);
+	 }
+	 location.href = '/payment/direct?prodlist=' + prodArr.toString();
+ }

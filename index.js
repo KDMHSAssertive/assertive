@@ -48,14 +48,17 @@ var mysql_connection = mysql.createConnection({
     database: 'assertive'
 });
 
-mysql_connection.connect();
-
 function mysql_query(q_comm) {
     return new Promise((resolve, reject) => {
+        // mysql_connection.connect();
         mysql_connection.query(q_comm, (err, rows, fields) => {
-            if (err) reject("Query ERR: " + err);
-            else resolve(rows);
+            if (err) {
+                reject("Query ERR: " + err);
+            } else {
+                resolve(rows);
+            }
         })
+        // mysql_connection.end();
     })
 }
 
@@ -209,7 +212,56 @@ app.use(session({
     }
 }));
 
+
+
+function makeid(length, type) {
+    let characters;
+    if (type == "num") {
+        characters = '0123456789';
+    } else {
+        characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    }
+    var result = '';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+
+
+function getTime() {
+    var date = new Date().getDate();
+    if (date < 10) {
+        date = '0' + date
+    }
+
+    var month = new Date().getMonth()+1;
+    if (month < 10) {
+        month = '0' + month
+    }
+
+    var hour = new Date().getHours();
+    if (hour < 10) {
+        hour = '0' + hour
+    }
+
+    var minute = new Date().getMinutes();
+    if (minute < 10) {
+        minute = '0' + minute
+    }
+
+    var second = new Date().getSeconds();
+    if (second < 10) {
+        second = '0' + second
+    }
+
+
+    return '' + new Date().getFullYear() + month + date + "-" + hour + ":" + minute + ":" + second;
+}
+
 //router setting
 
-var router = require('./router')(app, fs, path, getIP, axios, si, time, mysql, crypto, mysql_connection, ip_mysql, pw_security, mysql_query, async);
+var router = require('./router')(app, fs, path, getIP, axios, si, time, mysql, crypto, mysql_connection, ip_mysql, pw_security, mysql_query, async, makeid, getTime);
 
