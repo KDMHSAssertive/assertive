@@ -64,7 +64,7 @@ function functionCart(pid, msg, myYes) {
 		if (res.data == true) {
 			// show message
 			var confirmBox = $("#confirm");
-			confirmBox.find(".message p").text(msg + "장바구니 담기 완료");
+			confirmBox.find(".message p").text(msg.substr(0, 3) + "... 장바구니 담기 완료");
 			confirmBox.find(".close").unbind().click(function() {
 			confirmBox.hide();
 			});

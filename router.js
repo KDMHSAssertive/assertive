@@ -29,34 +29,52 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
     // specific product info loading
     
     function getProdData(i, prodlist, savepoint) {
-      console.log("sef");
-        if (savepoint.jsonIncludes("prodid", prodlist[i]) == -1) {
-            mysql_query("SELECT * FROM product WHERE prodid='" + prodlist[i] + "'")
-            .then((res_sql) => {
-                if (res_sql.length > 0) {
-                    let data = res_sql[0];
-                    data.num = 1;
-                    savepoint.push(data);
+        return new Promise((resolve, reject) => {
+            // console.log(prodlist[i]);
+            // console.log(savepoint);
+            if (savepoint.jsonIncludes("barcode", prodlist[i]) == -1) {
+                mysql_query("SELECT * FROM product WHERE barcode='" + prodlist[i] + "'")
+                .then((res_sql) => {
+                    // console.log(res_sql);
+                    if (res_sql.length > 0) {
+                        let data = res_sql[0];
+                        data.num = 1;
+                        // console.log(data);
+                        savepoint.push(data);
+                    }
+                    if (i < prodlist.length-1) {
+                        getProdData(++i, prodlist, savepoint)
+                        .then((resolved) => {
+                            resolve(resolved);
+                        })
+                    } else {
+                        resolve(savepoint);
+                    }
+                })
+            } else {
+                // console.log(savepoint.jsonIncludes("barcode", prodlist[i]));
+                savepoint[savepoint.jsonIncludes("barcode", prodlist[i])].num++;
+                if (i < prodlist.length-1) {
+                    getProdData(++i, prodlist, savepoint)
+                    .then((resolved) => {
+                        resolve(resolved);
+                    })
+                } else {
+                    resolve(savepoint);
                 }
-            })
-        } else {
-            savepoint[savepoint.jsonIncludes("prodid", prodlist[i])].num++;
-        }
-        if (i < prodlist.length-1) {
-            getProdData(++i, prodlist, savepoint);
-        } else {
-            return savepoint;
-        }
+            }
+        })
     }
     
-    function getSpecProd(location, prodarr) {
+    function getSpecProd(user, location, prodarr) {
         return new Promise((resolve, reject) => {
+            // console.log(user);
             async.waterfall([
                 (callback) => {
-                    if (req.session.user != undefined || req.session.user.id == "" || req.session.user == null) {
+                    if (user == undefined || user == null) {
                         reject("ERR: NOT LOGINED");
                     } else {
-                        callback(null, req.session.user);
+                        callback(null, user);
                     }
                 },
                 (uinfo, callback) => {
@@ -64,10 +82,11 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
                     if (location == "cart") {
                         mysql_query("SELECT * FROM cart WHERE userid='" + uinfo.id + "'")
                         .then((res_sql) => {
+                            console.log(res_sql);
                             if (res_sql.length <= 0) {
                                 resolve([]);
                             } else {
-                                callback(null, uinfo, res_sql[0]);
+                                callback(null, uinfo, res_sql[0].cartInfo.split(","));
                             }
                         })
                     } else {
@@ -82,7 +101,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
                     })
                 }
             ], (err, result) => {
-                resolve(specData);
+                resolve(result);
             })
         })
     }
@@ -94,7 +113,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         // res.end('server loaded');
         console.log("Page approached: index");
         if(req.session.user) {
-            getSpecProd("cart");
+            // getSpecProd("cart");
             res.render("index.html", {
                 status: true,
                 uinfo: req.session.user
@@ -144,7 +163,6 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         let prod_data;
 
         if (req.session != undefined && req.session.user != undefined) {
-            // prod_data = [{
             //     name: "한국디지털미디어고등학교 스마트팜 무농약 당일재배 상추 60g",
             //     price: 8760,
             //     prodid: "c3018582834",
@@ -183,12 +201,19 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
 
     // cart page
     app.get('/cart', function(req, res) {
-        console.log("Page approached:c cart");
+        console.log("Page approached: cart");
         if (req.session != undefined && req.session.user != undefined) {
-            res.render("cart.html", {
-                status: true,
-                uinfo: req.session.user
-            });   
+            getSpecProd(req.session.user, "cart")
+            .then((res_cart) => {
+                res.render("cart.html", {
+                    status: true,
+                    uinfo: req.session.user,
+                    cart: res_cart
+                });
+            })
+            .catch((e) => {
+                console.error(e);
+            })
         } else {
             res.statusCode = 302;
             res.setHeader('Location', '/login');
@@ -447,9 +472,15 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
 
         // })
         
+        // req.session.user = {
+        //     name: "test",
+        //     id: req.body.id,
+        //     authorized: true
+        // }
+
         req.session.user = {
             name: "test",
-            id: req.body.id,
+            id: "test",
             authorized: true
         }
 

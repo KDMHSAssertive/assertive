@@ -57,7 +57,7 @@
                                 <a href="/payment?paymid=132435ijgfw0" class="order_text" style="color: inherit;">주문하기</a>
                             </button>
                             <button class="shopping_basket">
-                                <p class="shopping_basket_text" onclick="functionCart('<%= prod[i].prodid%>', 'test');">장바구니</p>
+                                <p class="shopping_basket_text" onclick="functionCart('<%= prod[i].barcode%>', '<%= prod[i].name%>');">장바구니</p>
                             </button>
                         </div>
                     <% } %>
