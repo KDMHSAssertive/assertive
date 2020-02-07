@@ -27,7 +27,8 @@
           <p class="productImg"></p>
           <p class="productTitle prodTitle">상품명</p>
           <p class="productAmount">수량</p>
-          <p class="productPrice">가격</p>
+          <p class="productAmount">가격</p>
+          <p class="productPrice">전체 가격</p>
           <p class="productSelected">선택</p>
         </div>
         <div class="cart-cont">
@@ -35,9 +36,25 @@
             <div class="list-contents cart-list">
               <img style="width: auto; height: 60%; padding-top: 20px;" class="cartImg-<%= cart[i].barcode%>" src="<%= cart[i].imageURL%>"/>
               <p class="listTitle prodTitle"><%= cart[i].name%></p>
-              <p class="listNum"><%= cart[i].num%></p>
-              <p class="listPrice"><%= cart[i].price * cart[i].num%></p>
-              <input type="checkbox" class="listSelector" name="<%= cart[i].barcode %>" onclick="selectFromCart(<%= cart[i].barcode%>, <%= cart[i].num%>)"/>
+              <div class="listNumCov">
+                <p class="listNum listNum-<%= cart[i].barcode %>" onclick='NumChange(<%= cart[i].barcode%>)'><%= cart[i].num%>개</p>
+                <input type="number" class="listNumAlt listNumAlt-<%= cart[i].barcode %>"/>
+              </div>
+              <p class="listPrice"><%= cart[i].price%>원</p>
+              <p class="listPriceT"><%= cart[i].price * cart[i].num%>원</p>
+              <input type="checkbox" hidden="hidden" class="listSelector" id="listSelector" name="<%= cart[i].barcode %>"/>
+              <label for="listSelector" class="listSelectorLabel clicker-<%= cart[i].barcode %>" id="listSelector" onclick="selectFromCart(<%= cart[i].barcode%>, <%= cart[i].num%>)">
+                <div class="checkInn">
+                  <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                      <!-- Generator: Sketch 3.4.2 (15857) - http://www.bohemiancoding.com/sketch -->
+                      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                          <g id="Artboard-3" sketch:type="MSArtboardGroup" fill="#FFFFFF">
+                              <path d="M14,23 L11,26 L19,34 L37,17 L34,14 L19,28 L14,23 Z" id="Checkmark" sketch:type="MSShapeGroup"></path>
+                          </g>
+                      </g>
+                  </svg>
+                </div>
+              </label>
             </div>  
           <% } %>
         </div>

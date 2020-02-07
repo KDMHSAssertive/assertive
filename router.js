@@ -318,7 +318,7 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
                                 var all = Math.floor(price /100 ) * 100
                                 var sale = price - all;
                                 productInfo[j].binfo = {
-                                    price,
+                                    price: productInfo[j].price,
                                     all,
                                     sale
                                 }

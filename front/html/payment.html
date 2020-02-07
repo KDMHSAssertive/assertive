@@ -29,7 +29,7 @@
       <div class="item_box">
         <% for (var i = 0; i < paym_data.productInfo.length; i++) { %>
           <div class="order_item">
-            <img src="<%= paym_data.productInfo[i].imgRoute%>" width="132.8px" height="132.8px">
+            <img src="../<%= paym_data.productInfo[i].imageURL%>" width="132.8px" height="132.8px">
             <div class="item_name order_item_obj"><%= paym_data.productInfo[i].name%></div>
             <div class="item_count item order_item_obj"><%= paym_data.productInfo[i].num %>개</div>
             <div class="item_price item order_item_obj"><%= paym_data.productInfo[i].binfo.price %>원</div>

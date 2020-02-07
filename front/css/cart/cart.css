@@ -51,7 +51,7 @@ body {
   /* background-color: green; */
   margin-top: 0;
   display: grid;
-  grid-template-columns: 100px auto 50px 150px 50px; 
+  grid-template-columns: 100px auto 50px 100px 150px 50px; 
 }
 .main .contents-area .list-titles {
   height: 50px;
@@ -59,6 +59,16 @@ body {
 
 .main .contents-area .list-titles p {
   font-family: "AppleSDGothicNeoB";
+  font-size: 20px;
+  /* margin-bottom: 20px; */
+}
+
+.main .contents-area .list-titles p.productSelected {
+  margin-left: 10px;
+}
+
+.main .contents-area .cart-cont {
+  margin-top: 20px;
 }
 
 .main .contents-area .cart-cont .list-contents {
@@ -70,12 +80,53 @@ body {
 }
 
 .main .contents-area .cart-cont p {
-  font-size: 22px;
-  padding-top: 15px;
+  font-size: 17px;
+  padding-top: 22px;
 }
 
 .main .contents-area .cart-cont input.listSelector {
   margin-top: 18px;
+}
+
+.main .contents-area .cart-cont .listNumCov {
+  
+}
+
+.main .contents-area .cart-cont .listNumCov .listNumAlt {
+  width: 20px;
+  position: relative;
+  top: -38px;
+  right: 15px;
+  display: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+label#listSelector {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(200, 200, 200);
+  transition: all .3s ease;
+  border-radius: 4px;
+  position: relative;
+  margin-top: 37px;
+  /* margin-right: 25px; */
+}
+label#listSelector:hover {
+  border-color: rgb(130, 130, 130);
+}
+
+label.check .checkInn {
+  /* background-color: #232b39; */
+  transform: scale(1) !important;
+  width: 100%;
+  height: 100%;
+}
+
+label.check .checkInn svg {
+  transform: scale(1) !important;
+  width: 100%;
+  height: 100%;
 }
 
 .main .contents-area .cart-control {
