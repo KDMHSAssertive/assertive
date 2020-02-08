@@ -51,7 +51,7 @@ body {
   /* background-color: green; */
   margin-top: 0;
   display: grid;
-  grid-template-columns: 100px auto 50px 100px 150px 50px; 
+  grid-template-columns: 100px auto 90px 100px 180px 100px; 
 }
 .main .contents-area .list-titles {
   height: 50px;
@@ -59,7 +59,7 @@ body {
 
 .main .contents-area .list-titles p {
   font-family: "AppleSDGothicNeoB";
-  font-size: 20px;
+  font-size: 25px;
   /* margin-bottom: 20px; */
 }
 
@@ -68,7 +68,7 @@ body {
 }
 
 .main .contents-area .cart-cont {
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .main .contents-area .cart-cont .list-contents {

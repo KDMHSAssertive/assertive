@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <% include ./head_formal %>
+    <title>Assertive - 결제</title>
+    <link rel="stylesheet" type="text/css" href="../css/paymentN/payment.css">
+    <script src="../js/payment/payment.js"></script>
+    <script>
+      $(document).ready(() => {
+        $("a.order").addClass("selected");
+      })
+    </script>
+</head>
+
+<body>
+    <% include ./nav_formal %>
+    
+    
+    <div class="main">
+      <div class="title-area">
+        <div class="title-bar"></div>
+        <p class="title">장바구니</p>
+      </div>
+      <div class="contents-area">
+        <div class="list-titles cart-list">
+          <p class="productImg"></p>
+          <p class="productTitle prodTitle">상품명</p>
+          <p class="productAmount">수량</p>
+          <p class="productPrice">가격</p>
+          <p class="productDsc">할인</p>
+          <p class="productTotal">선택</p>
+        </div>
+        <div class="cart-cont">
+          <% for (var i = 0; i < paym_data.productInfo.length; i++) { %>
+            <div class="list-contents cart-list">
+              <img style="width: auto; height: 60%; padding-top: 20px;" class="cartImg-<%= paym_data.productInfo[i].barcode%>" src="<%= paym_data.productInfo[i].imageURL%>"/>
+              <p class="listTitle prodTitle"><%= paym_data.productInfo[i].name%></p>
+              <div class="listNumCov">
+                <p class="listNum listNum-<%= paym_data.productInfo[i].barcode %>" onclick='NumChange(<%= paym_data.productInfo[i].barcode%>)'><%= paym_data.productInfo[i].num%>개</p>
+                <input type="number" class="listNumAlt listNumAlt-<%= paym_data.productInfo[i].barcode %>"/>
+              </div>
+              <p class="listPrice"><%= paym_data.productInfo[i].price%>원</p>
+              <p class="listPriceT"><%= paym_data.productInfo[i].price * paym_data.productInfo[i].num%>원</p>
+              <input type="checkbox" hidden="hidden" class="listSelector" id="listSelector" name="<%= paym_data.productInfo[i].barcode %>"/>
+              <label for="listSelector" class="listSelectorLabel clicker-<%= paym_data.productInfo[i].barcode %>" id="listSelector" onclick="selectFromCart(<%= paym_data.productInfo[i].barcode%>, <%= paym_data.productInfo[i].num%>)">
+                <div class="checkInn">
+                  <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                      <!-- Generator: Sketch 3.4.2 (15857) - http://www.bohemiancoding.com/sketch -->
+                      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                          <g id="Artboard-3" sketch:type="MSArtboardGroup" fill="#FFFFFF">
+                              <path d="M14,23 L11,26 L19,34 L37,17 L34,14 L19,28 L14,23 Z" id="Checkmark" sketch:type="MSShapeGroup"></path>
+                          </g>
+                      </g>
+                  </svg>
+                </div>
+              </label>
+            </div>  
+          <% } %>
+        </div>
+        <div class="cart-control">
+          <div class="cart-button cart-clear" onclick="clearCart()">
+            <p class="cart-text">카트 비우기</p>
+          </div>
+          <div class="cart-button cart-payAll" onclick="payAll()">
+            <p class="cart-text">카트상품 전체결제</p>
+          </div>
+          <div class="cart-button cart-paySel" onclick="payItem()">
+            <p class="cart-text">선택상품 결제</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% include ./footer_formal %>
+    <script src="../js/order/index.js"></script>
+
+</body>
+
+</html>

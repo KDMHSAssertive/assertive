@@ -16,6 +16,7 @@ function selectFromCart(barcode, num) {
     setTimeout(() => {
       $(".clicker-" + barcode).css("background-color", "unset");
       $(".clicker-" + barcode + " .checkInn").css("transform", "unset");
+      $(".clicker-" + barcode).css("border-radius", "4px");
     }, 200);
   } else {
     for (var i = 0; i < num; i++) {
@@ -23,6 +24,7 @@ function selectFromCart(barcode, num) {
     }
     $(".clicker-" + barcode).css("background-color", "#16cede");
     $(".clicker-" + barcode + " .checkInn").css("transform", "scale(0)");
+    $(".clicker-" + barcode).css("border-radius", "15px");
     setTimeout(() => {
       $(".clicker-" + barcode).addClass("check");
     }, 200);
@@ -75,6 +77,11 @@ function checkDiff(barcode) {
       return;
     } else {
       // update product number
+      if (curval == 0) {
+        // delete product alert
+      } else {
+        // send change request
+      }
     }
 
   })
