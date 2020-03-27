@@ -487,6 +487,19 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
 
     //register(post) router
 
+    app.post('/idCheckDup', (req, res) => {
+        const user_id = req.body.userId;
+        try {
+            mysql_connection.query("Select * From user where userid = '" + user_id + "'", function(err_b, res_b, field_b) {
+                if (res_b.length == 0) res.end("true");
+                else return res.end("false");
+            });
+        } catch(e) {
+            console.error(e);
+            res.end("ERROR");
+        }
+    })
+
     app.post('/register', function(req, res) {
 
         var result;

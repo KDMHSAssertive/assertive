@@ -12,20 +12,139 @@
         $(document).ready(() => {
             $("body").css("width", $(window).width());
             $("body").css("height", $(window).height());
-        })
-        $("inputTag").focus((element) => {
-            console.log(element);
+            $(".inputTag").focus((element) => {
+                const otherClass = element.target.classList.value.replace(" inputTag", "");
+                console.log(otherClass);
+                $("." + otherClass + ".inputCover .inputTag").css("color", "white");
+                if (otherClass == "idInput") $("." + otherClass + ".inputCover .inputTag").css("font-size", "15px");
+                $("." + otherClass + ".inputCover .placeholder").css("opacity", "0");
+                setTimeout(() => {
+                    $("." + otherClass + ".inputCover .placeholder").css("display", "none");
+                }, 400);
+            })
+            $(".inputTag").focusout((element) => {
+                const otherClass = element.target.classList.value.replace(" inputTag", "");
+                console.log(otherClass);
+                if ($("." + otherClass + ".inputCover .inputTag").val() == "") {
+                    $("." + otherClass + ".inputCover .placeholder").css("display", "unset");
+                    setTimeout(() => {
+                        $("." + otherClass + ".inputCover .placeholder").css("opacity", "1");
+                    }, 300);
+                } else if (otherClass == "idInput") {
+                    axios.post('/idCheckDup', {
+                        userId: $("." + otherClass + ".inputCover .inputTag").val()
+                    })
+                    .then(({data}) => {
+                        if (data) {
+                            $("." + otherClass + ".inputCover .inputTag").css("font-size", "20px");
+                            $("." + otherClass + ".inputCover .inputTag").css("color", "rgb(7, 193, 56)");
+                        } else {
+                            $("." + otherClass + ".inputCover .inputTag").css("font-size", "20px");
+                            $("." + otherClass + ".inputCover .inputTag").css("color", "rgb(193, 7, 7)");
+                        }
+                    })
+                } else if (otherClass == "pwconfInput") {
+                    const pwF = $(".pwInput.inputTag").val();
+                    const pwS = $(".pwconfInput.inputTag").val();
+
+                    if (pwF == pwS) {
+                        $(".pwInput.inputCover .inputTag").css("color", "rgb(7, 193, 56)");
+                        $("." + otherClass + ".inputCover .inputTag").css("color", "rgb(7, 193, 56)");
+                    } else {
+                        $(".pwInput.inputCover .inputTag").css("color", "rgb(193, 7, 7)");
+                        $("." + otherClass + ".inputCover .inputTag").css("color", "rgb(193, 7, 7)");
+                        setTimeout(() => {
+                            $(".pwInput.inputCover .inputTag").val("");
+                            $("." + otherClass + ".inputCover .inputTag").val("");
+                        }, 500);
+                    }
+                }
+                if ($(".nameInput .inputTag").val() != "" && $(".idInput .inputTag").val() != "" && $(".pwInput .inputTag").val() != "" && $(".pwconfInput .inputTag").val() != "" && $(".pwInput .inputTag").val() == $(".pwconfInput .inputTag").val()) {
+                    $(".nameInput .inputTag").attr("readOnly");
+                    $(".nameInput .inputTag").css("width", ($(".nameInput .inputTag").width()-10) + "px");
+                    $(".nameInput .inputTag").css("opacity", "0.7");
+                    $(".idInput .inputTag").attr("readOnly");
+                    $(".idInput .inputTag").css("width", ($(".idInput .inputTag").width()-10) + "px");
+                    $(".idInput .inputTag").css("opacity", "0.7");
+                    $(".pwInput .inputTag").attr("readOnly");
+                    $(".pwInput .inputTag").css("width", ($(".pwInput .inputTag").width()-10) + "px");
+                    $(".pwInput .inputTag").css("opacity", "0.7");
+                    $(".pwconfInput .inputTag").attr("readOnly");
+                    $(".pwconfInput .inputTag").css("width", ($(".pwconfInput .inputTag").width()-10) + "px");
+                    $(".pwconfInput .inputTag").css("opacity", "0.7");
+                    setTimeout(() => {
+                        $(".stageB").css("display", "unset");
+                        $(".stageA").css("opacity", "0");
+                        setTimeout(() => {
+                            $(".stageB").css("opacity", "1");
+                            $(".stageA").css("display", "none");
+                        }, 2300);
+                    }, 1000);
+                }
+            })
         })
     </script>
 </head>
 <body>
     <img src="../img/logo_white.png" class="logoImg"/>
     <div class="inputForm">
-        <div class="nameInput inputCover">
-            <p class="areaTitle">이름</p>
-            <p class="placeholder nameInputPL">이름을 입력해 주세요</p>
-            <input type="text" name="name" class="nameInput inputTag" id="nameInput"/>
-            <div class="designLine"></div>
+        <div class="stageA">
+            <div class="nameInput inputCover">
+                <p class="areaTitle">이름</p>
+                <p class="placeholder nameInputPL">이름을 입력해 주세요</p>
+                <input type="text" name="name" class="nameInput inputTag" id="nameInput"/>
+                <div class="designLine"></div>
+            </div>
+            <div class="idInput inputCover">
+                <p class="areaTitle">아이디</p>
+                <p class="placeholder idInputPL">아이디을 입력해 주세요</p>
+                <input type="text" name="name" class="idInput inputTag" id="idInput" style="font-size: 15px;"/>
+                <div class="designLine"></div>
+            </div>
+            <div class="pwInput inputCover">
+                <p class="areaTitle">비밀번호</p>
+                <p class="placeholder pwInputPL">비밀번호을 입력해 주세요</p>
+                <input type="password" name="name" class="pwInput inputTag" id="pwInput"/>
+                <div class="designLine"></div>
+            </div>
+            <div class="pwconfInput inputCover">
+                <p class="areaTitle">비밀번호 확인</p>
+                <p class="placeholder pwconfInputPL" style="left: 170px;">비밀번호 확인을 입력해 주세요</p>
+                <input type="password" name="name" class="pwconfInput inputTag" id="pwconfInput" style="left: 170px; width: 70%;"/>
+                <div class="designLine"></div>
+            </div>
+        </div>
+        <div class="stageB">
+            <div class="pnInput inputCover">
+                <p class="areaTitle">전화번호</p>
+                <p class="placeholder pnInputPL">전화번호을 입력해 주세요</p>
+                <input type="text" name="name" class="pnInput inputTag" id="pnInput"/>
+                <div class="designLine"></div>
+            </div>
+            <div class="birthInput inputCover">
+                <p class="areaTitle">생년월일</p>
+                <p class="placeholder birthInputPL">생년월일을 입력해 주세요</p>
+                <input type="text" name="name" class="birthInput inputTag" id="birthInput"/>
+                <div class="designLine"></div>
+            </div>
+            <div class="emailInput inputCover">
+                <p class="areaTitle">E-mail</p>
+                <p class="placeholder emailInputPL">E-mail을 입력해 주세요</p>
+                <input type="text" name="name" class="emailInput inputTag" id="emailInput"/>
+                <div class="designLine"></div>
+            </div>
+            <div class="addrInputA inputCover">
+                <p class="areaTitle">주소</p>
+                <p class="placeholder addrInputAPL">주소을 입력해 주세요</p>
+                <input type="text" name="name" class="addrInputA inputTag" id="addrInputA"/>
+                <div class="designLine"></div>
+            </div>
+            <div class="addrInputB inputCover">
+                <p class="areaTitle">상세주소</p>
+                <p class="placeholder addrInputBPL">상세주소을 입력해 주세요</p>
+                <input type="text" name="name" class="addrInputB inputTag" id="addrInputB"/>
+                <div class="designLine"></div>
+            </div>
         </div>
     </div>
 </body>
