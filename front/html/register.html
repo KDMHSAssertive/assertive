@@ -58,6 +58,12 @@
                             $("." + otherClass + ".inputCover .inputTag").val("");
                         }, 500);
                     }
+                } else if (otherClass == "pwInput") {
+                    const pwF = $(".pwInput.inputTag").val();
+                    if (pwF.length != 0 && (pwF.length < 5 || pwF.length > 14)) {
+                        alert("비밀번호는 5자리 이상 14자리 이하여야 합니다.");
+                        $(".pwInput .inputTag").focus();
+                    }
                 }
                 if ($(".nameInput .inputTag").val() != "" && $(".idInput .inputTag").val() != "" && $(".pwInput .inputTag").val() != "" && $(".pwconfInput .inputTag").val() != "" && $(".pwInput .inputTag").val() == $(".pwconfInput .inputTag").val()) {
                     $(".nameInput .inputTag").attr("readOnly");
