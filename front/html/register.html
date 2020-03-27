@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/register/register.css">
+    <link rel="stylesheet" type='text/css' href="../css/all.css">
+    <title>Assertive - 회원가입</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700&display=swap" rel="stylesheet">
+    <script>
+        $(document).ready(() => {
+            $("body").css("width", $(window).width());
+            $("body").css("height", $(window).height());
+        })
+        $("inputTag").focus((element) => {
+            console.log(element);
+        })
+    </script>
+</head>
+<body>
+    <img src="../img/logo_white.png" class="logoImg"/>
+    <div class="inputForm">
+        <div class="nameInput inputCover">
+            <p class="areaTitle">이름</p>
+            <p class="placeholder nameInputPL">이름을 입력해 주세요</p>
+            <input type="text" name="name" class="nameInput inputTag" id="nameInput"/>
+            <div class="designLine"></div>
+        </div>
+    </div>
+</body>
+</html>

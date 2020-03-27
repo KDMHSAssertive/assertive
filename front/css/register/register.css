@@ -1,0 +1,74 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: #303d53;
+}
+
+.logoImg {
+    width: 250px;
+    height: auto;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.inputForm {
+    width: 600px;
+    height: 85%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid yellow;
+    transform: translate(-50%, -50%);
+}
+
+.inputForm .inputCover {
+    width: 100%;
+    height: 80px;
+    border: 1px solid red;
+    position: relative;
+}
+.inputForm .inputCover .areaTitle {
+    font-size: 30px;
+    font-family: "Noto Sans KR";
+    font-weight: 500;
+    color: white;
+    margin: 0;
+    position: absolute;
+    bottom: 10px;
+}
+.inputForm .inputCover .inputTag {
+    width: 80%;
+    height: 30px;
+    position: absolute;
+    bottom: 14px;
+    right: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+.inputForm .inputCover .placeholder {
+    font-size: 15px;
+    font-family: "Noto Sans KR";
+    font-weight: 500;
+    color: white;
+    margin: 0;
+    position: absolute;
+    bottom: 20px;
+    left: 125px;
+    z-index: 100;
+}
+.inputForm .inputCover .inputTag:focus {
+    outline: none;
+}
+
+
+.designLine {
+    width: 100%;
+    height: 0.9px;
+    background-image: linear-gradient(to left, #16cede 95%, #16e7ba 9%);
+    position: absolute;
+    bottom: 0;
+}
