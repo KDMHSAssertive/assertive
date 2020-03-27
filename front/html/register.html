@@ -65,7 +65,27 @@
                         $(".pwInput .inputTag").focus();
                     }
                 }
-                if ($(".nameInput .inputTag").val() != "" && $(".idInput .inputTag").val() != "" && $(".pwInput .inputTag").val() != "" && $(".pwconfInput .inputTag").val() != "" && $(".pwInput .inputTag").val() == $(".pwconfInput .inputTag").val()) {
+                if ($(".pnInput .inputTag").val() != "" && $(".birthInput .inputTag").val() != "" && $(".emailInput .inputTag").val() != "" && $(".addrInputA .inputTag").val() != "" && $(".addrInputB .inputTag").val() != "") {
+                    axios.post('/register', {
+                        id: $(".idInput .inputTag").val(),
+                        pw: encodeURI($(".pwInput .inputTag").val()),
+                        name: $(".nameInput .inputTag").val(),
+                        email: $(".emailInput .inputTag").val(),
+                        pn: $(".pnInput .inputTag").val(),
+                        b_day: $(".birthInput .inputTag").val(),
+                        address: $(".addrInputA .inputTag").val() + $(".addrInputB .inputTag").val()
+                    })
+                    .then(({data}) => {
+                        if (data) {
+                            alert("히원가입이 완료되었습니다!");
+                            location.href = "/login";
+                        } else new Error();
+                    })
+                    .catch((e) => {
+                        alert("회원가입중 오류가 발생하였습니다. 다시 시도해주세요");
+                        location.reload();
+                    })
+                } else if ($(".nameInput .inputTag").val() != "" && $(".idInput .inputTag").val() != "" && $(".pwInput .inputTag").val() != "" && $(".pwconfInput .inputTag").val() != "" && $(".pwInput .inputTag").val() == $(".pwconfInput .inputTag").val()) {
                     $(".nameInput .inputTag").attr("readOnly");
                     $(".nameInput .inputTag").css("width", ($(".nameInput .inputTag").width()-10) + "px");
                     $(".nameInput .inputTag").css("opacity", "0.7");
@@ -84,10 +104,11 @@
                         setTimeout(() => {
                             $(".stageB").css("opacity", "1");
                             $(".stageA").css("display", "none");
-                        }, 2300);
+                        }, 1300);
                     }, 1000);
                 }
             })
+            
         })
     </script>
 </head>
