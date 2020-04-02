@@ -20,10 +20,10 @@
                 })
                 .then(({data}) => {
                     // alert(data);
-                    if (data.yn == true && data.test ==  true) {
+                    if (data.yn == "true" && data.test ==  true) {
                         alert("테스트 로그인이 활성화되어있습니다.");
                         location.href="/";
-                    } else if (data.yn == true) {
+                    } else if (data.yn == "true") {
                         alert(data.name + "님, 환영합니다");
                         location.href="/";
                     } else {

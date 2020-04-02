@@ -24,7 +24,7 @@ const ip_local = "localhost";
 const ip_outward = "1.242.22.109";
 const ip_outward_b = "1.242.22.221";
 const ip_outward_c = "121.170.91.55"
-const ip = ip_outward_c;
+const ip = ip_local;
 const domain = 'http://sfam.shop';
 
 const ip_mysql_real = "121.170.91.30";
