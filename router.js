@@ -500,168 +500,181 @@ module.exports = function(app, fs, path, getIP, axios, si, time, mysql, crypto, 
         }
     })
 
-    app.post('/register', function(req, res) {
+    // app.post('/register', function(req, res) {
 
-        var result;
+    //     var result;
         
-        //define sent information
-        var user_id = req.body.id;
-        var user_pw_unenc = req.body.pw;
-        var user_name = req.body.name;
-        var email = req.body.email;
-        var pn = req.body.pn;
-        var birth = req.body.b_day;
-        var address = req.body.address;
+    //     //define sent information
+    //     var user_id = req.body.id;
+    //     var user_pw_unenc = req.body.pw;
+    //     var user_name = req.body.name;
+    //     var email = req.body.email;
+    //     var pn = req.body.pn;
+    //     var birth = req.body.b_day;
+    //     var address = req.body.address;
 
-        //connect db
+    //     //connect db
 
-        try {
+    //     try {
 
-            time_start = new Date().getTime();
+    //         time_start = new Date().getTime();
 
-            mysql_connection.query('SELECT * FROM user WHERE userid = "' + user_id + '"', async function(err, res, field) {
-                if (err) throw err;
-                if (res[0] == undefined) {
-                    console.log('New register!');
+    //         mysql_connection.query('SELECT * FROM user WHERE userid = "' + user_id + '"', async function(err, res, field) {
+    //             if (err) throw err;
+    //             if (res[0] == undefined) {
+    //                 console.log('New register!');
     
-                    //data encrypt
-                    console.log("Start encrypting data");
+    //                 //data encrypt
+    //                 console.log("Start encrypting data");
     
-                    //create random enc key
+    //                 //create random enc key
     
-                    function make_enckey(length) {
-                        var result = '';
-                        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                        var charactersLength = characters.length;
-                        for ( var i = 0; i < length; i++ ) {
-                        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-                        }
-                        return result;
-                    }
+    //                 function make_enckey(length) {
+    //                     var result = '';
+    //                     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    //                     var charactersLength = characters.length;
+    //                     for ( var i = 0; i < length; i++ ) {
+    //                     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    //                     }
+    //                     return result;
+    //                 }
                     
-                    var enc_key = make_enckey(5);
+    //                 var enc_key = make_enckey(5);
                     
-                    //1. pw
+    //                 //1. pw
     
-                    var passCipher = crypto.createCipher('aes-256-cbc', enc_key);
-                    var enc_a_pw = passCipher.update(user_pw_unenc, 'utf-8', 'hex');
-                    enc_a_pw += passCipher.final('hex');
+    //                 var passCipher = crypto.createCipher('aes-256-cbc', enc_key);
+    //                 var enc_a_pw = passCipher.update(user_pw_unenc, 'utf-8', 'hex');
+    //                 enc_a_pw += passCipher.final('hex');
     
-                    var encrypt_pw = crypto.createHash('sha256');
-                    encrypt_pw.update(enc_a_pw);
-                    var user_pw_enc = encrypt_pw.digest('hex');
+    //                 var encrypt_pw = crypto.createHash('sha256');
+    //                 encrypt_pw.update(enc_a_pw);
+    //                 var user_pw_enc = encrypt_pw.digest('hex');
 
-                    var date_registered = new Date().toFormat("YYYY-MM-DD HH24:MI:SS");
+    //                 var date_registered = new Date().toFormat("YYYY-MM-DD HH24:MI:SS");
     
-                    mysql_connection.query(`
-                        Insert into user (
-                            userid, 
-                            password, 
-                            name, 
-                            email, 
-                            phone, 
-                            birth, 
-                            address, 
-                            registerdate,
-                            usernum
-                        ) values (
-                            "` + user_id + `", 
-                            "` + user_pw_enc + `", 
-                            "` + user_name + `", 
-                            "` + email + `", 
-                            "` + pn + `", 
-                            "` + birth + `", 
-                            "` + address + `", 
-                            "` + date_registered + `",
-                            "` + 0 + `")
-                        `), function(err, res, fields) {
-                        if (err) {
-                            throw err;
-                        } else {
-                            console.log('complete');
-                        }
-                    }
-                    result = {
-                        result: "success",
-                        reason: "none",
-                        id: user_id
-                    }
+    //                 mysql_connection.query(`
+    //                     Insert into user (
+    //                         userid, 
+    //                         password, 
+    //                         name, 
+    //                         email, 
+    //                         phone, 
+    //                         birth, 
+    //                         address, 
+    //                         registerdate,
+    //                         usernum
+    //                     ) values (
+    //                         "` + user_id + `", 
+    //                         "` + user_pw_enc + `", 
+    //                         "` + user_name + `", 
+    //                         "` + email + `", 
+    //                         "` + pn + `", 
+    //                         "` + birth + `", 
+    //                         "` + address + `", 
+    //                         "` + date_registered + `",
+    //                         "` + 0 + `")
+    //                     `), function(err, res, fields) {
+    //                     if (err) {
+    //                         throw err;
+    //                     } else {
+    //                         console.log('complete');
+    //                     }
+    //                 }
+    //                 result = {
+    //                     result: "success",
+    //                     reason: "none",
+    //                     id: user_id
+    //                 }
     
-                    //define usernum
+    //                 //define usernum
     
-                    mysql_connection.query("Select * From user where userid = '" + user_id + "'", function(err_b, res_b, field_b) {
+    //                 mysql_connection.query("Select * From user where userid = '" + user_id + "'", function(err_b, res_b, field_b) {
     
-                        var usernum = new Date().getFullYear() + pn.split('-')[2] + new Date().getMonth() + res_b[0].id;
+    //                     var usernum = new Date().getFullYear() + pn.split('-')[2] + new Date().getMonth() + res_b[0].id;
 
-                        console.log("usernum: " + usernum);
+    //                     console.log("usernum: " + usernum);
 
-                        mysql_connection.query("Update user set usernum = '" + usernum + "' where id = '" + res_b[0].id + "'" , function(err, res_c, field_c) {
-                            if (err) throw err;
-                            console.log("All stage is ended successfully - Register new user");
-                        })
-                    });
+    //                     mysql_connection.query("Update user set usernum = '" + usernum + "' where id = '" + res_b[0].id + "'" , function(err, res_c, field_c) {
+    //                         if (err) throw err;
+    //                         console.log("All stage is ended successfully - Register new user");
+    //                     })
+    //                 });
 
-                    //enc key record
+    //                 //enc key record
 
-                    // 반드시 실서비스 실행시 db 접근 가능 계정을 localhost로만 접속가능하도록 할것 (=sec_dbacc);
+    //                 // 반드시 실서비스 실행시 db 접근 가능 계정을 localhost로만 접속가능하도록 할것 (=sec_dbacc);
                     
-                    //check db access information
+    //                 //check db access information
 
-                    var login_enc_connection = mysql.createConnection({
-                        host: ip_mysql,
-                        user: "sec_dbacc",
-                        password: pw_mysql_sec,
-                        database: 'assertive_sec'
-                    })
-                    login_enc_connection.query("Insert into login_enc values (" + 
-                    userid + ", " + 
-                    getIP(req).clientIP + ", " + 
-                    date_registered + ", " + 
-                    enc_key + ")", function(err_enckey, res_enckey, fields_enckey) {
-                        if (err_enckey) {
-                            console.log("Error while writing enckey at db");
-                            console.log("Delete user: " + user_id);
+    //                 var login_enc_connection = mysql.createConnection({
+    //                     host: ip_mysql,
+    //                     user: "sec_dbacc",
+    //                     password: pw_mysql_sec,
+    //                     database: 'assertive_sec'
+    //                 })
+    //                 login_enc_connection.query("Insert into login_enc values (" + 
+    //                 userid + ", " + 
+    //                 getIP(req).clientIP + ", " + 
+    //                 date_registered + ", " + 
+    //                 enc_key + ")", function(err_enckey, res_enckey, fields_enckey) {
+    //                     if (err_enckey) {
+    //                         console.log("Error while writing enckey at db");
+    //                         console.log("Delete user: " + user_id);
 
-                            mysql_connection.query("delete from user which user")
-                        }
-                        console.log(res_enckey);
-                        console.log("Complete to write encrypt key at db");
-                    });
+    //                         mysql_connection.query("delete from user which user")
+    //                     }
+    //                     console.log(res_enckey);
+    //                     console.log("Complete to write encrypt key at db");
+    //                 });
 
     
-                } else {
-                    console.log('ID Duplicate!! \n id: ' + user_id);
-                    result = {
-                        result: "error",
-                        reason: "id_duplicate",
-                        id: user_id
-                    }
-                }
+    //             } else {
+    //                 console.log('ID Duplicate!! \n id: ' + user_id);
+    //                 result = {
+    //                     result: "error",
+    //                     reason: "id_duplicate",
+    //                     id: user_id
+    //                 }
+    //             }
     
-            });
+    //         });
         
-            time_elapsed = new Date().getTime() - time_start;
-            // console.log("회원가입 요청 소요된 시간: " + time_elapsed);
-            console.log(
-                `Complete Registering user: ` + user_id +
-                `Register Time: ` + date_registered
-            );
-            setTimeout(() => {
-                res.json(result);
-            }, time_elapsed + 100);
+    //         time_elapsed = new Date().getTime() - time_start;
+    //         // console.log("회원가입 요청 소요된 시간: " + time_elapsed);
+    //         console.log(
+    //             `Complete Registering user: ` + user_id +
+    //             `Register Time: ` + date_registered
+    //         );
+    //         setTimeout(() => {
+    //             res.json(result);
+    //         }, time_elapsed + 100);
 
-        } catch(e) {
+    //     } catch(e) {
             
-            console.log(`
-            Error occured while registering new user.
-            user name: ` + user_name + `,
-            user email: ` + email + `,
-            `);
+    //         console.log(`
+    //         Error occured while registering new user.
+    //         user name: ` + user_name + `,
+    //         user email: ` + email + `,
+    //         `);
 
-            res.end("Error occured while registering new user");
+    //         res.end("Error occured while registering new user");
 
-            throw e;
-        }
+    //         throw e;
+    //     }
+    // })
+
+
+    app.post('/register', (req, res) => {
+        const userid = req.body.id,
+        pw = req.body.pw,
+        name = req.body.name,
+        email = req.body.email,
+        pn = req.body.pn,
+        b_day = req.body.b_day,
+        address = req.body.address;
+
+        // pw encrypt
     })
 
     //posting(post) router
